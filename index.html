@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>eFootball Cup - Standings</title>
+<style>
+    body {
+        background: #0d0d0d;
+        color: white;
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 20px;
+    }
+
+    h1 {
+        text-align: center;
+        color: #FFD700;
+        margin-bottom: 30px;
+    }
+
+    .group {
+        margin-bottom: 50px;
+        border-top: 2px solid #333;
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 10px;
+    }
+
+    th, td {
+        padding: 12px;
+        text-align: left;
+        border-bottom: 1px solid #333;
+    }
+
+    th {
+        color: #FFD700;
+        font-size: 18px;
+    }
+
+    .team {
+        font-weight: bold;
+    }
+
+    #admin {
+        margin-top: 40px;
+        background: #111;
+        padding: 20px;
+        display: none;
+        border: 1px solid #333;
+    }
+
+    button {
+        padding: 10px 20px;
+        background: #FFD700;
+        border: none;
+        font-weight: bold;
+        cursor: pointer;
+    }
+
+    button:hover {
+        opacity: 0.8;
+    }
+</style>
+</head>
+<body>
+
+<h1>eFootball Cup – Groups & Standings</h1>
+
+<!-- GROUP A -->
+<div class="group">
+    <h2>Group A</h2>
+    <table>
+        <tr>
+            <th>Team</th>
+            <th>P</th>
+            <th>W</th>
+            <th>D</th>
+            <th>L</th>
+            <th>Goals</th>
+            <th>Points</th>
+        </tr>
+
+        <tr><td class="team">Germany</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0:0</td><td>0</td></tr>
+        <tr><td class="team">Slovakia</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0:0</td><td>0</td></tr>
+        <tr><td class="team">Northern Ireland</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0:0</td><td>0</td></tr>
+        <tr><td class="team">Luxembourg</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0:0</td><td>0</td></tr>
+    </table>
+</div>
+
+<!-- GROUP B -->
+<div class="group">
+    <h2>Group B</h2>
+    <table>
+        <tr>
+            <th>Team</th>
+            <th>P</th>
+            <th>W</th>
+            <th>D</th>
+            <th>L</th>
+            <th>Goals</th>
+            <th>Points</th>
+        </tr>
+
+        <tr><td class="team">Switzerland</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0:0</td><td>0</td></tr>
+        <tr><td class="team">Kosovo</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0:0</td><td>0</td></tr>
+        <tr><td class="team">Slovenia</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0:0</td><td>0</td></tr>
+        <tr><td class="team">Sweden</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0:0</td><td>0</td></tr>
+    </table>
+</div>
+
+<!-- GROUP C -->
+<div class="group">
+    <h2>Group C</h2>
+    <table>
+        <tr>
+            <th>Team</th>
+            <th>P</th>
+            <th>W</th>
+            <th>D</th>
+            <th>L</th>
+            <th>Goals</th>
+            <th>Points</th>
+        </tr>
+
+        <tr><td class="team">Scotland</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0:0</td><td>0</td></tr>
+        <tr><td class="team">Denmark</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0:0</td><td>0</td></tr>
+        <tr><td class="team">Norway</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0:0</td><td>0</td></tr>
+        <tr><td class="team">Finland</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0:0</td><td>0</td></tr>
+    </table>
+</div>
+
+<br><br>
+
+<button onclick="showAdmin()">Admin Panel</button>
+
+<div id="admin">
+    <h2>Enter Admin Password</h2>
+    <input id="pass" type="password" placeholder="Password">
+    <button onclick="login()">Login</button>
+</div>
+
+<script>
+function showAdmin() {
+    document.getElementById("admin").style.display = "block";
+}
+
+function login() {
+    let p = document.getElementById("pass").value;
+
+    if (p === "eFootballAdmin") {
+        alert("Welcome Admin! لكن التعديل هنا مازال بسيط. يمكنني إضافة نظام تعديل كامل إذا أردت.");
+    } else {
+        alert("Wrong password!");
+    }
+}
+</script>
+
+</body>
+</html>
