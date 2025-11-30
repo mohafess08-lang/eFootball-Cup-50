@@ -17,10 +17,11 @@ th { color: yellow; }
 .matchup { background:#222; padding:10px; border-radius:5px; margin-bottom:5px; }
 .matches-table div { flex:1; margin:0 5px; }
 .matches-table ul { list-style:none; padding:0; }
-.matches-table li { margin:10px 0; } /* مسافة بين المباريات */
+.matches-table li { margin:10px 0; }
 .match-check { transform:scale(1.2); margin-right:5px; }
 .white { color:white; }
 .yellow { color:yellow; }
+.editable { color:white; outline:none; border:none; background:none; width:100%; }
 </style>
 </head>
 <body>
@@ -110,30 +111,30 @@ th { color: yellow; }
 <h2>Teams Qualified for Knockout Stage</h2>
 <table id="advancing-table">
 <tr><th>Group</th><th>1st</th><th>2nd</th></tr>
-<tr><td>A</td><td>--</td><td>--</td></tr>
-<tr><td>B</td><td>--</td><td>--</td></tr>
-<tr><td>C</td><td>--</td><td>--</td></tr>
-<tr><td>D</td><td>--</td><td>--</td></tr>
+<tr><td>A</td><td contenteditable="true" class="editable">--</td><td contenteditable="true" class="editable">--</td></tr>
+<tr><td>B</td><td contenteditable="true" class="editable">--</td><td contenteditable="true" class="editable">--</td></tr>
+<tr><td>C</td><td contenteditable="true" class="editable">--</td><td contenteditable="true" class="editable">--</td></tr>
+<tr><td>D</td><td contenteditable="true" class="editable">--</td><td contenteditable="true" class="editable">--</td></tr>
 </table>
 </div>
 
 <!-- الجدول النهائي للأدوار الإقصائية -->
 <div class="knockout" id="knockout">
 <h2>Quarter-finals</h2>
-<div class="matchup">QF1: -- vs --</div>
-<div class="matchup">QF2: -- vs --</div>
-<div class="matchup">QF3: -- vs --</div>
-<div class="matchup">QF4: -- vs --</div>
+<div class="matchup">QF1: <span contenteditable="true" class="editable">--</span> vs <span contenteditable="true" class="editable">--</span></div>
+<div class="matchup">QF2: <span contenteditable="true" class="editable">--</span> vs <span contenteditable="true" class="editable">--</span></div>
+<div class="matchup">QF3: <span contenteditable="true" class="editable">--</span> vs <span contenteditable="true" class="editable">--</span></div>
+<div class="matchup">QF4: <span contenteditable="true" class="editable">--</span> vs <span contenteditable="true" class="editable">--</span></div>
 
 <h2>Semi-finals</h2>
-<div class="matchup">SF1: -- vs --</div>
-<div class="matchup">SF2: -- vs --</div>
+<div class="matchup">SF1: <span contenteditable="true" class="editable">--</span> vs <span contenteditable="true" class="editable">--</span></div>
+<div class="matchup">SF2: <span contenteditable="true" class="editable">--</span> vs <span contenteditable="true" class="editable">--</span></div>
 
 <h2>Final</h2>
-<div class="matchup">Final: -- vs --</div>
+<div class="matchup">Final: <span contenteditable="true" class="editable">--</span> vs <span contenteditable="true" class="editable">--</span></div>
 
-<h2>Third Place</h2>
-<div class="matchup">3rd Place: -- vs --</div>
+<h2>Second Place Match</h2>
+<div class="matchup">Second Place: <span contenteditable="true" class="editable">--</span> vs <span contenteditable="true" class="editable">--</span> | Winner: <span contenteditable="true" class="editable">--</span></div>
 </div>
 
 <script>
@@ -168,7 +169,6 @@ const groups = {
         { name: "Said – Real Madrid", m:0,w:0,d:0,l:0,gf:0,ga:0 }
     ],
 };
-
 
 // ----------------- HELPERS -----------------
 function calculatePoints(team){ return team.w*3 + team.d; }
