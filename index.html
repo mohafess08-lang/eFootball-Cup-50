@@ -22,8 +22,35 @@ th { color: yellow; }
 <h1>eFootball Cup</h1>
 
 <div class="table-container" id="tables"></div>
-<div class="advancing-teams" id="advancing-teams"></div>
-<div class="knockout" id="knockout"></div>
+
+<div class="advancing-teams">
+    <h2>Teams Qualified for Knockout Stage</h2>
+    <table id="advancing-table">
+        <tr><th>Group</th><th>1st</th><th>2nd</th></tr>
+        <tr><td>A</td><td>--</td><td>--</td></tr>
+        <tr><td>B</td><td>--</td><td>--</td></tr>
+        <tr><td>C</td><td>--</td><td>--</td></tr>
+        <tr><td>D</td><td>--</td><td>--</td></tr>
+    </table>
+</div>
+
+<div class="knockout" id="knockout">
+    <h2>Quarter-finals</h2>
+    <div class="matchup">QF1: -- vs --</div>
+    <div class="matchup">QF2: -- vs --</div>
+    <div class="matchup">QF3: -- vs --</div>
+    <div class="matchup">QF4: -- vs --</div>
+
+    <h2>Semi-finals</h2>
+    <div class="matchup">SF1: -- vs --</div>
+    <div class="matchup">SF2: -- vs --</div>
+
+    <h2>Final</h2>
+    <div class="matchup">Final: -- vs --</div>
+
+    <h2>Third Place</h2>
+    <div class="matchup">3rd Place: -- vs --</div>
+</div>
 
 <script>
 // ----------------- DATA -----------------
@@ -36,130 +63,4 @@ const groups = {
         { name: "Samir – Paris Saint-Germain", m:0,w:0,d:0,l:0,gf:0,ga:0 }
     ],
     B: [
-        { name: "Oussama – Malaga", m:0,w:0,d:0,l:0,gf:0,ga:0 },
-        { name: "Soufiane – FC Barcelona", m:0,w:0,d:0,l:0,gf:0,ga:0 },
-        { name: "Houssam – Algeria NT", m:0,w:0,d:0,l:0,gf:0,ga:0 },
-        { name: "Oussama – Manchester City", m:0,w:0,d:0,l:0,gf:0,ga:0 },
-        { name: "Mohamed – Manchester United", m:0,w:0,d:0,l:0,gf:0,ga:0 }
-    ],
-    C: [
-        { name: "Moad – São Paulo", m:0,w:0,d:0,l:0,gf:0,ga:0 },
-        { name: "Elhady – AC Milan", m:0,w:0,d:0,l:0,gf:0,ga:0 },
-        { name: "BenTaleb – Liverpool", m:0,w:0,d:0,l:0,gf:0,ga:0 },
-        { name: "Mehdi – Morocco NT", m:0,w:0,d:0,l:0,gf:0,ga:0 },
-        { name: "Dovix – Senegal NT", m:0,w:0,d:0,l:0,gf:0,ga:0 }
-    ],
-    D: [
-        { name: "Khalid – Chelsea", m:0,w:0,d:0,l:0,gf:0,ga:0 },
-        { name: "Touati – Japan NT", m:0,w:0,d:0,l:0,gf:0,ga:0 },
-        { name: "Karim – Bayern Munich", m:0,w:0,d:0,l:0,gf:0,ga:0 },
-        { name: "Aizen – Inter Milan", m:0,w:0,d:0,l:0,gf:0,ga:0 },
-        { name: "Said – Real Madrid", m:0,w:0,d:0,l:0,gf:0,ga:0 }
-     ],
-};
-
-// ----------------- HELPERS -----------------
-function calculatePoints(team){ return team.w*3 + team.d; }
-
-// Display Groups
-function displayGroups(){
-    const container = document.getElementById('tables');
-    container.innerHTML = '';
-    for(let g in groups){
-        let html = `<div class="group-title">Group ${g}</div><table>
-        <tr><th>#</th><th>Team</th><th>M</th><th>W</th><th>D</th><th>L</th><th>Goals</th><th>Points</th></tr>`;
-        let sorted = [...groups[g]].sort((a,b)=>{
-            let ptsB = calculatePoints(b), ptsA = calculatePoints(a);
-            if(ptsB!==ptsA) return ptsB-ptsA;
-            let gdB = b.gf-b.ga, gdA = a.gf-a.ga;
-            if(gdB!==gdA) return gdB-gdA;
-            return b.gf - a.gf;
-        });
-        sorted.forEach((t,i)=>{
-            html += `<tr>
-                <td>${i+1}</td>
-                <td class="team">${t.name}</td>
-                <td>${t.m}</td>
-                <td>${t.w}</td>
-                <td>${t.d}</td>
-                <td>${t.l}</td>
-                <td>${t.gf}:${t.ga}</td>
-                <td>${calculatePoints(t)}</td>
-            </tr>`;
-        });
-        html += `</table>`;
-        container.innerHTML += html;
-    }
-}
-
-// Get advancing teams
-function getAdvancingTeams(){
-    let advancing=[];
-    for(let g in groups){
-        let sorted = [...groups[g]].sort((a,b)=>{
-            let ptsB = calculatePoints(b), ptsA = calculatePoints(a);
-            if(ptsB!==ptsA) return ptsB-ptsA;
-            let gdB = b.gf-b.ga, gdA = a.gf-a.ga;
-            if(gdB!==gdA) return gdB-gdA;
-            return b.gf - a.gf;
-        });
-        advancing.push({group:g, first:sorted[0].name, second:sorted[1].name});
-    }
-    return advancing;
-}
-
-// Display advancing teams
-function displayAdvancing(){
-    const advDiv = document.getElementById('advancing-teams');
-    const advancing = getAdvancingTeams();
-    advDiv.innerHTML = '<h2>Teams Qualified for Knockout Stage</h2>';
-    advancing.forEach(a=>{
-        advDiv.innerHTML += `<p>Group ${a.group}:<br>1st: ${a.first}<br>2nd: ${a.second}</p>`;
-    });
-}
-
-// Build and display knockout stages
-function displayKnockout(){
-    const koDiv = document.getElementById('knockout');
-    const adv = getAdvancingTeams();
-    koDiv.innerHTML = '<h2>Quarter-finals</h2>';
-
-    const QFs = [
-        { t1: adv[0].first, t2: adv[0].second },
-        { t1: adv[0].first, t2: adv[0].second },
-        { t1: adv[0].first, t2: adv[0].second },
-        { t1: adv[0].first, t2: adv[0].second }
-    ];
-
-    QFs.forEach((q,i)=>{
-        koDiv.innerHTML += `<div class="matchup">QF${i+1}: ${q.t1} vs ${q.t2}</div>`;
-    });
-
-    // Semi-finals
-    const SFs = [
-        { t1: QFs[0].t1, t2: QFs[0].t1 },
-        { t1: QFs[0].t1, t2: QFs[0].t1 }
-    ];
-    koDiv.innerHTML += '<h2>Semi-finals</h2>';
-    SFs.forEach((s,i)=>{
-        koDiv.innerHTML += `<div class="matchup">SF${i+1}: ${s.t1} vs ${s.t2}</div>`;
-    });
-
-    // Final
-    const finalTeams = { t1: SFs[0].t1, t2: SFs[0].t1 };
-    koDiv.innerHTML += '<h2>Final</h2>';
-    koDiv.innerHTML += `<div class="matchup">Final: ${finalTeams.t1} vs ${finalTeams.t2}</div>`;
-
-    // Second place
-    const secondTeams = { t1: SFs[0].t2, t2: SFs[0].t2 };
-    koDiv.innerHTML += '<h2>Second Place</h2>';
-    koDiv.innerHTML += `<div class="matchup">3rd Place: ${secondTeams.t1} vs ${secondTeams.t2}</div>`;
-}
-
-// ----------------- INIT -----------------
-displayGroups();
-displayAdvancing();
-displayKnockout();
-</script>
-</body>
-</html>
+        {
