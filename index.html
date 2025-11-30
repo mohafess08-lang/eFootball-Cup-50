@@ -85,8 +85,8 @@ th {
     border-radius: 5px;
 }
 
-.match select {
-    margin-left: 10px;
+.match input[type="number"] {
+    width: 50px;
 }
 
 .update-btn {
@@ -126,10 +126,6 @@ th {
     padding: 10px;
     background: #222;
     border-radius: 5px;
-}
-
-.matchup select {
-    margin-left: 10px;
 }
 </style>
 
@@ -178,7 +174,6 @@ th {
         <tr>
             <th>#</th><th>Team</th><th>M</th><th>W</th><th>D</th><th>L</th><th>Goals</th><th>Points</th>
         </tr>
-        <!--صلحت لك الخطأ هنا: كان id ديال L مكرر -->
         <tr><td>1</td><td class="team">Aizen – Inter Milan</td><td id="m4-1">0</td><td id="w4-1">0</td><td id="d4-1">0</td><td id="l4-1">0</td><td id="g4-1">0:0</td><td id="pts4-1">0</td></tr>
         <tr><td>2</td><td class="team">Said – Real Madrid</td><td id="m4-2">0</td><td id="w4-2">0</td><td id="d4-2">0</td><td id="l4-2">0</td><td id="g4-2">0:0</td><td id="pts4-2">0</td></tr>
         <tr><td>3</td><td class="team">Mohmed – Manchester United</td><td id="m4-3">0</td><td id="w4-3">0</td><td id="d4-3">0</td><td id="l4-3">0</td><td id="g4-3">0:0</td><td id="pts4-3">0</td></tr>
@@ -186,41 +181,34 @@ th {
     </table>
 </div>
 
-<div class="advancing-teams" id="advancing-teams">
-    <!-- Advancing teams will be displayed here -->
-</div>
+<div class="advancing-teams" id="advancing-teams"></div>
 
 <div class="knockout-stage" id="knockout-stage">
     <div class="stage-title">Quarter-finals</div>
-    <div id="quarter-finals">
-        <div class="matchup">Winner of Group 1 vs Runner-up of Group 2</div>
-        <div class="matchup">Winner of Group 2 vs Runner-up of Group 1</div>
-        <div class="matchup">Winner of Group 3 vs Runner-up of Group 4</div>
-        <div class="matchup">Winner of Group 4 vs Runner-up of Group 3</div>
-    </div>
+    <div id="qf-display"></div>
+
     <div class="stage-title">Semi-finals</div>
-    <div id="semi-finals">
-        <div class="matchup">Winner of Quarter-final 1 vs Winner of Quarter-final 2</div>
-        <div class="matchup">Winner of Quarter-final 3 vs Winner of Quarter-final 4</div>
-    </div>
+    <div id="sf-display"></div>
+
     <div class="stage-title">Final</div>
-    <div id="final">
-        <div class="matchup">Winner of Semi-final 1 vs Winner of Semi-final 2</div>
-    </div>
+    <div id="final-display"></div>
+
     <div class="stage-title">Third-place Match</div>
-    <div id="third-place">
-        <div class="matchup">Loser of Semi-final 1 vs Loser of Semi-final 2</div>
-    </div>
+    <div id="third-display"></div>
 </div>
 
 <button class="admin-btn" onclick="login()">Admin Panel</button>
 
 <div class="admin-panel" id="admin-panel">
     <h2>Admin Panel - Enter Match Results</h2>
-    <div id="group-matches">
-        <!-- Group matches will be generated here -->
-    </div>
+    <div id="group-matches"></div>
     <button class="update-btn" onclick="updateGroupStandings()">Update Group Standings</button>
+
+    <div id="knockout-matches" style="display:none;">
+        <h3>Knockout Stage Matches</h3>
+        <div id="ko-matches"></div>
+        <button class="update-btn" onclick="updateKnockout()">Update Knockout Results</button>
+    </div>
 </div>
 
 <script>
@@ -232,6 +220,10 @@ let teams = {
 };
 
 let advancingTeams = [];
+let quarterFinalsPairs = [];
+let semiFinalsPairs = [];
+let finalPair = null;
+let thirdPair = null;
 
 function login() {
     let pass = prompt("Password:");
@@ -245,6 +237,7 @@ function login() {
     }
 }
 
+// GROUP STAGE: إنشاء مباريات المجموعات (سكور حقيقي)
 function generateGroupMatches() {
     let matchesDiv = document.getElementById('group-matches');
     matchesDiv.innerHTML = '';
@@ -253,16 +246,14 @@ function generateGroupMatches() {
         let groupTeams = teams[group];
         for (let i = 0; i < groupTeams.length; i++) {
             for (let j = i + 1; j < groupTeams.length; j++) {
-                let matchId = `match-${group}-${i}-${j}`;
+                let matchKey = `${group}-${i}-${j}`;
                 matchesDiv.innerHTML += `
                     <div class="match">
-                        ${groupTeams[i]} vs ${groupTeams[j]}
-                        <select id="${matchId}">
-                            <option value="">Select Result</option>
-                            <option value="win1">${groupTeams[i]} Wins</option>
-                            <option value="win2">${groupTeams[j]} Wins</option>
-                            <option value="draw">Draw</option>
-                        </select>
+                        ${groupTeams[i]}
+                        <input type="number" id="g1-${matchKey}" min="0" placeholder="0">
+                        :
+                        <input type="number" id="g2-${matchKey}" min="0" placeholder="0">
+                        ${groupTeams[j]}
                     </div>
                 `;
             }
@@ -270,8 +261,8 @@ function generateGroupMatches() {
     }
 }
 
+// GROUP STAGE: حساب الترتيب والمتأهلين
 function updateGroupStandings() {
-    // Reset stats
     let stats = {};
     for (let group = 1; group <= 4; group++) {
         stats[group] = {};
@@ -280,52 +271,51 @@ function updateGroupStandings() {
         }
     }
 
-    // Process results
+    // قراءة السكورات لكل مباراة
     for (let group = 1; group <= 4; group++) {
         let groupTeams = teams[group];
         for (let i = 0; i < groupTeams.length; i++) {
             for (let j = i + 1; j < groupTeams.length; j++) {
-                let matchId = `match-${group}-${i}-${j}`;
-                let resultElem = document.getElementById(matchId);
-                if (!resultElem) continue;
-                let result = resultElem.value;
+                let matchKey = `${group}-${i}-${j}`;
+                let g1Elem = document.getElementById(`g1-${matchKey}`);
+                let g2Elem = document.getElementById(`g2-${matchKey}`);
+                if (!g1Elem || !g2Elem) continue;
 
-                if (result) {
-                    stats[group][i].m++;
-                    stats[group][j].m++;
-                    if (result === 'win1') {
-                        stats[group][i].w++;
-                        stats[group][j].l++;
-                        stats[group][i].pts += 3;
-                        // نموذج بسيط للأهداف (يمكن تغييره)
-                        stats[group][i].gf += 2;
-                        stats[group][i].ga += 1;
-                        stats[group][j].gf += 1;
-                        stats[group][j].ga += 2;
-                    } else if (result === 'win2') {
-                        stats[group][j].w++;
-                        stats[group][i].l++;
-                        stats[group][j].pts += 3;
-                        stats[group][j].gf += 2;
-                        stats[group][j].ga += 1;
-                        stats[group][i].gf += 1;
-                        stats[group][i].ga += 2;
-                    } else if (result === 'draw') {
-                        stats[group][i].d++;
-                        stats[group][j].d++;
-                        stats[group][i].pts += 1;
-                        stats[group][j].pts += 1;
-                        stats[group][i].gf += 1;
-                        stats[group][i].ga += 1;
-                        stats[group][j].gf += 1;
-                        stats[group][j].ga += 1;
-                    }
+                let val1 = g1Elem.value.trim();
+                let val2 = g2Elem.value.trim();
+                if (val1 === "" || val2 === "") continue;
+
+                let goals1 = parseInt(val1, 10);
+                let goals2 = parseInt(val2, 10);
+                if (isNaN(goals1) || isNaN(goals2)) continue;
+
+                stats[group][i].m++;
+                stats[group][j].m++;
+
+                stats[group][i].gf += goals1;
+                stats[group][i].ga += goals2;
+                stats[group][j].gf += goals2;
+                stats[group][j].ga += goals1;
+
+                if (goals1 > goals2) {
+                    stats[group][i].w++;
+                    stats[group][j].l++;
+                    stats[group][i].pts += 3;
+                } else if (goals2 > goals1) {
+                    stats[group][j].w++;
+                    stats[group][i].l++;
+                    stats[group][j].pts += 3;
+                } else {
+                    stats[group][i].d++;
+                    stats[group][j].d++;
+                    stats[group][i].pts += 1;
+                    stats[group][j].pts += 1;
                 }
             }
         }
     }
 
-    // Update tables
+    // تحديث جداول المجموعات
     for (let group = 1; group <= 4; group++) {
         let table = document.getElementById(`group${group}-table`);
         let rows = table.rows;
@@ -340,7 +330,7 @@ function updateGroupStandings() {
         }
     }
 
-    // Determine advancing teams (top 2 of each group)
+    // تحديد المتأهلين (الأول والثاني من كل مجموعة)
     advancingTeams = [];
     for (let group = 1; group <= 4; group++) {
         let groupArray = [];
@@ -352,7 +342,6 @@ function updateGroupStandings() {
                 gf: stats[group][i].gf
             });
         }
-        // sort by points, then goal diff, then goals for
         groupArray.sort((a, b) => {
             if (b.pts !== a.pts) return b.pts - a.pts;
             if (b.gd !== a.gd) return b.gd - a.gd;
@@ -362,16 +351,239 @@ function updateGroupStandings() {
         advancingTeams.push({ group: group, position: 2, name: groupArray[1].name });
     }
 
-    // Show advancing teams
+    // عرض المتأهلين
     let advDiv = document.getElementById('advancing-teams');
     let html = "<h2>Teams Qualified for Knockout Stage</h2>";
     for (let group = 1; group <= 4; group++) {
+        let first = advancingTeams.find(t => t.group === group && t.position === 1).name;
+        let second = advancingTeams.find(t => t.group === group && t.position === 2).name;
         html += `<p>Group ${group}:<br>
-            1st: ${advancingTeams.find(t => t.group === group && t.position === 1).name}<br>
-            2nd: ${advancingTeams.find(t => t.group === group && t.position === 2).name}
+            1st: ${first}<br>
+            2nd: ${second}
         </p>`;
     }
     advDiv.innerHTML = html;
+
+    // إعداد الأدوار الإقصائية
+    setupKnockout();
+}
+
+// مساعد: الحصول على اسم فريق متأهل
+function getAdvancingName(group, position) {
+    let obj = advancingTeams.find(t => t.group === group && t.position === position);
+    return obj ? obj.name : "TBD";
+}
+
+// إعداد مباريات الأدوار الإقصائية
+function setupKnockout() {
+    if (advancingTeams.length < 8) {
+        alert("لابد من إنهاء نتائج المجموعات أولاً.");
+        return;
+    }
+
+    document.getElementById('knockout-stage').style.display = 'block';
+    document.getElementById('knockout-matches').style.display = 'block';
+
+    quarterFinalsPairs = [
+        { id: "Q1", t1: getAdvancingName(1,1), t2: getAdvancingName(2,2) },
+        { id: "Q2", t1: getAdvancingName(2,1), t2: getAdvancingName(1,2) },
+        { id: "Q3", t1: getAdvancingName(3,1), t2: getAdvancingName(4,2) },
+        { id: "Q4", t1: getAdvancingName(4,1), t2: getAdvancingName(3,2) }
+    ];
+
+    // عرض في واجهة الجمهور
+    let qfDisp = document.getElementById('qf-display');
+    qfDisp.innerHTML = "";
+    quarterFinalsPairs.forEach((m, idx) => {
+        qfDisp.innerHTML += `<div class="matchup">Q${idx+1}: ${m.t1} vs ${m.t2}</div>`;
+    });
+
+    // إنشاء إدخال النتائج للأدمين
+    let koDiv = document.getElementById('ko-matches');
+    koDiv.innerHTML = "";
+
+    koDiv.innerHTML += `<h4>Quarter-finals</h4>`;
+    quarterFinalsPairs.forEach((m, idx) => {
+        let num = idx + 1;
+        koDiv.innerHTML += `
+            <div class="match">
+                Q${num}: ${m.t1}
+                <input type="number" id="qf${num}-g1" min="0" placeholder="0">
+                :
+                <input type="number" id="qf${num}-g2" min="0" placeholder="0">
+                ${m.t2}
+            </div>
+        `;
+    });
+
+    // Semi-finals placeholders
+    koDiv.innerHTML += `<h4>Semi-finals</h4>`;
+    koDiv.innerHTML += `
+        <div class="match">
+            SF1: <span id="sf1-team1">Winner Q1</span>
+            <input type="number" id="sf1-g1" min="0" placeholder="0">
+            :
+            <input type="number" id="sf1-g2" min="0" placeholder="0">
+            <span id="sf1-team2">Winner Q2</span>
+        </div>
+        <div class="match">
+            SF2: <span id="sf2-team1">Winner Q3</span>
+            <input type="number" id="sf2-g1" min="0" placeholder="0">
+            :
+            <input type="number" id="sf2-g2" min="0" placeholder="0">
+            <span id="sf2-team2">Winner Q4</span>
+        </div>
+    `;
+
+    // Final & Third placeholders
+    koDiv.innerHTML += `<h4>Final</h4>`;
+    koDiv.innerHTML += `
+        <div class="match">
+            Final: <span id="final-team1">Winner SF1</span>
+            <input type="number" id="final-g1" min="0" placeholder="0">
+            :
+            <input type="number" id="final-g2" min="0" placeholder="0">
+            <span id="final-team2">Winner SF2</span>
+        </div>
+    `;
+
+    koDiv.innerHTML += `<h4>Third-place Match</h4>`;
+    koDiv.innerHTML += `
+        <div class="match">
+            3rd place: <span id="third-team1">Loser SF1</span>
+            <input type="number" id="third-g1" min="0" placeholder="0">
+            :
+            <input type="number" id="third-g2" min="0" placeholder="0">
+            <span id="third-team2">Loser SF2</span>
+        </div>
+    `;
+}
+
+// تحديث نتائج الأدوار الإقصائية
+function updateKnockout() {
+    if (quarterFinalsPairs.length === 0) {
+        alert("أولاً حدّد المتأهلين من المجموعات.");
+        return;
+    }
+
+    // Quarter-finals
+    let qWinners = [];
+    let qLosers = [];
+    for (let i = 0; i < quarterFinalsPairs.length; i++) {
+        let num = i + 1;
+        let m = quarterFinalsPairs[i];
+        let g1 = parseInt(document.getElementById(`qf${num}-g1`).value, 10);
+        let g2 = parseInt(document.getElementById(`qf${num}-g2`).value, 10);
+        if (isNaN(g1) || isNaN(g2)) continue;
+
+        if (g1 > g2) {
+            qWinners[i] = m.t1;
+            qLosers[i] = m.t2;
+        } else if (g2 > g1) {
+            qWinners[i] = m.t2;
+            qLosers[i] = m.t1;
+        } else {
+            qWinners[i] = "TBD (Draw)";
+            qLosers[i] = "TBD (Draw)";
+        }
+    }
+
+    // Semi-finals pairs
+    semiFinalsPairs = [
+        { id: "SF1", t1: qWinners[0] || "TBD", t2: qWinners[1] || "TBD" },
+        { id: "SF2", t1: qWinners[2] || "TBD", t2: qWinners[3] || "TBD" }
+    ];
+
+    // Update semi names (admin + public)
+    document.getElementById('sf1-team1').innerText = semiFinalsPairs[0].t1;
+    document.getElementById('sf1-team2').innerText = semiFinalsPairs[0].t2;
+    document.getElementById('sf2-team1').innerText = semiFinalsPairs[1].t1;
+    document.getElementById('sf2-team2').innerText = semiFinalsPairs[1].t2;
+
+    let sfDisp = document.getElementById('sf-display');
+    sfDisp.innerHTML = "";
+    sfDisp.innerHTML += `<div class="matchup">SF1: ${semiFinalsPairs[0].t1} vs ${semiFinalsPairs[0].t2}</div>`;
+    sfDisp.innerHTML += `<div class="matchup">SF2: ${semiFinalsPairs[1].t1} vs ${semiFinalsPairs[1].t2}</div>`;
+
+    // Semi-final winners/losers
+    let sfWinners = [];
+    let sfLosers = [];
+
+    let sf1g1 = parseInt(document.getElementById('sf1-g1').value, 10);
+    let sf1g2 = parseInt(document.getElementById('sf1-g2').value, 10);
+    if (!isNaN(sf1g1) && !isNaN(sf1g2)) {
+        if (sf1g1 > sf1g2) {
+            sfWinners[0] = semiFinalsPairs[0].t1;
+            sfLosers[0] = semiFinalsPairs[0].t2;
+        } else if (sf1g2 > sf1g1) {
+            sfWinners[0] = semiFinalsPairs[0].t2;
+            sfLosers[0] = semiFinalsPairs[0].t1;
+        }
+    }
+
+    let sf2g1 = parseInt(document.getElementById('sf2-g1').value, 10);
+    let sf2g2 = parseInt(document.getElementById('sf2-g2').value, 10);
+    if (!isNaN(sf2g1) && !isNaN(sf2g2)) {
+        if (sf2g1 > sf2g2) {
+            sfWinners[1] = semiFinalsPairs[1].t1;
+            sfLosers[1] = semiFinalsPairs[1].t2;
+        } else if (sf2g2 > sf2g1) {
+            sfWinners[1] = semiFinalsPairs[1].t2;
+            sfLosers[1] = semiFinalsPairs[1].t1;
+        }
+    }
+
+    finalPair = {
+        t1: sfWinners[0] || "Winner SF1",
+        t2: sfWinners[1] || "Winner SF2"
+    };
+    thirdPair = {
+        t1: sfLosers[0] || "Loser SF1",
+        t2: sfLosers[1] || "Loser SF2"
+    };
+
+    document.getElementById('final-team1').innerText = finalPair.t1;
+    document.getElementById('final-team2').innerText = finalPair.t2;
+    document.getElementById('third-team1').innerText = thirdPair.t1;
+    document.getElementById('third-team2').innerText = thirdPair.t2;
+
+    // عرض في واجهة الجمهور
+    let finalDisp = document.getElementById('final-display');
+    finalDisp.innerHTML = `<div class="matchup">Final: ${finalPair.t1} vs ${finalPair.t2}</div>`;
+
+    let thirdDisp = document.getElementById('third-display');
+    thirdDisp.innerHTML = `<div class="matchup">3rd place: ${thirdPair.t1} vs ${thirdPair.t2}</div>`;
+
+    // حساب البطل و المراكز
+    let champText = "";
+    let thirdText = "";
+
+    let fg1 = parseInt(document.getElementById('final-g1').value, 10);
+    let fg2 = parseInt(document.getElementById('final-g2').value, 10);
+    if (!isNaN(fg1) && !isNaN(fg2) && finalPair.t1 !== null && finalPair.t2 !== null) {
+        if (fg1 > fg2) {
+            champText = `Champion: ${finalPair.t1} | Runner-up: ${finalPair.t2}`;
+        } else if (fg2 > fg1) {
+            champText = `Champion: ${finalPair.t2} | Runner-up: ${finalPair.t1}`;
+        }
+    }
+
+    let tg1 = parseInt(document.getElementById('third-g1').value, 10);
+    let tg2 = parseInt(document.getElementById('third-g2').value, 10);
+    if (!isNaN(tg1) && !isNaN(tg2) && thirdPair.t1 !== null && thirdPair.t2 !== null) {
+        if (tg1 > tg2) {
+            thirdText = `3rd Place: ${thirdPair.t1} | 4th Place: ${thirdPair.t2}`;
+        } else if (tg2 > tg1) {
+            thirdText = `3rd Place: ${thirdPair.t2} | 4th Place: ${thirdPair.t1}`;
+        }
+    }
+
+    if (champText !== "") {
+        finalDisp.innerHTML += `<div class="matchup">${champText}</div>`;
+    }
+    if (thirdText !== "") {
+        thirdDisp.innerHTML += `<div class="matchup">${thirdText}</div>`;
+    }
 }
 </script>
 
