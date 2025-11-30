@@ -146,10 +146,10 @@ function displayKnockout(){
     koDiv.innerHTML += '<h2>Final</h2>';
     koDiv.innerHTML += `<div class="matchup">Final: ${finalTeams.t1} vs ${finalTeams.t2}</div>`;
 
-    // Third place
-    const thirdTeams = { t1: SFs[0].t2, t2: SFs[0].t2 };
-    koDiv.innerHTML += '<h2>Third Place</h2>';
-    koDiv.innerHTML += `<div class="matchup">3rd Place: ${thirdTeams.t1} vs ${thirdTeams.t2}</div>`;
+    // Second place
+    const secondTeams = { t1: SFs[0].t2, t2: SFs[0].t2 };
+    koDiv.innerHTML += '<h2>Second Place</h2>';
+    koDiv.innerHTML += `<div class="matchup">3rd Place: ${secondTeams.t1} vs ${secondTeams.t2}</div>`;
 }
 
 // ----------------- INIT -----------------
