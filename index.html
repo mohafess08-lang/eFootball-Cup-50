@@ -1,3 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>eFootball Cup</title>
+<style>
+body { background: #111; color: white; font-family: Arial, sans-serif; text-align: center; margin: 0; padding: 0; }
+h1 { margin-top: 20px; color: gold; }
+.table-container { width: 90%; max-width: 1200px; margin: auto; margin-top: 20px; }
+.group-title { color: gold; font-size: 22px; margin: 20px 0 5px 0; text-align: left; }
+table { width: 100%; border-collapse: collapse; margin-bottom: 30px; }
+th, td { padding: 10px; border-bottom: 2px solid #333; }
+th { color: yellow; }
+.team { text-align: left; }
+.advancing-teams, .knockout { margin-top: 30px; color: gold; font-size: 18px; text-align:left; max-width:1200px; margin:auto; }
+.matchup { background:#222; padding:10px; border-radius:5px; margin-bottom:5px; }
+</style>
+</head>
+<body>
+
+<h1>eFootball Cup</h1>
+
 <div class="table-container" id="tables"></div>
 
 <div class="advancing-teams">
@@ -10,3 +33,128 @@
         <tr><td>D</td><td>--</td><td>--</td></tr>
     </table>
 </div>
+
+<div class="knockout" id="knockout">
+    <h2>Quarter-finals</h2>
+    <div class="matchup">QF1: -- vs --</div>
+    <div class="matchup">QF2: -- vs --</div>
+    <div class="matchup">QF3: -- vs --</div>
+    <div class="matchup">QF4: -- vs --</div>
+
+    <h2>Semi-finals</h2>
+    <div class="matchup">SF1: -- vs --</div>
+    <div class="matchup">SF2: -- vs --</div>
+
+    <h2>Final</h2>
+    <div class="matchup">Final: -- vs --</div>
+
+    <h2>Third Place</h2>
+    <div class="matchup">3rd Place: -- vs --</div>
+</div>
+
+<script>
+// ----------------- DATA -----------------
+const groups = {
+    A: [
+        { name: "Amine – Napoli", m:0,w:0,d:0,l:0,gf:0,ga:0 },
+        { name: "Fouad – Netherlands NT", m:0,w:0,d:0,l:0,gf:0,ga:0 },
+        { name: "Ayoub – Arsenal", m:0,w:0,d:0,l:0,gf:0,ga:0 },
+        { name: "Hamza – Borussia Dortmund", m:0,w:0,d:0,l:0,gf:0,ga:0 },
+        { name: "Samir – Paris Saint-Germain", m:0,w:0,d:0,l:0,gf:0,ga:0 }
+    ],
+    B: [
+        { name: "Oussama – Malaga", m:0,w:0,d:0,l:0,gf:0,ga:0 },
+        { name: "Soufiane – FC Barcelona", m:0,w:0,d:0,l:0,gf:0,ga:0 },
+        { name: "Houssam – Algeria NT", m:0,w:0,d:0,l:0,gf:0,ga:0 },
+        { name: "Oussama – Manchester City", m:0,w:0,d:0,l:0,gf:0,ga:0 },
+        { name: "Mohamed – Manchester United", m:0,w:0,d:0,l:0,gf:0,ga:0 }
+    ],
+    C: [
+        { name: "Moad – São Paulo", m:0,w:0,d:0,l:0,gf:0,ga:0 },
+        { name: "Elhady – AC Milan", m:0,w:0,d:0,l:0,gf:0,ga:0 },
+        { name: "BenTaleb – Liverpool", m:0,w:0,d:0,l:0,gf:0,ga:0 },
+        { name: "Mehdi – Morocco NT", m:0,w:0,d:0,l:0,gf:0,ga:0 },
+        { name: "Dovix – Senegal NT", m:0,w:0,d:0,l:0,gf:0,ga:0 }
+    ],
+    D: [
+        { name: "Khalid – Chelsea", m:0,w:0,d:0,l:0,gf:0,ga:0 },
+        { name: "Touati – Japan NT", m:0,w:0,d:0,l:0,gf:0,ga:0 },
+        { name: "Karim – Bayern Munich", m:0,w:0,d:0,l:0,gf:0,ga:0 },
+        { name: "Aizen – Inter Milan", m:0,w:0,d:0,l:0,gf:0,ga:0 },
+        { name: "Said – Real Madrid", m:0,w:0,d:0,l:0,gf:0,ga:0 }
+    ],
+};
+
+// ----------------- HELPERS -----------------
+function calculatePoints(team){ return team.w*3 + team.d; }
+
+function displayGroups(){
+    const container = document.getElementById('tables');
+    container.innerHTML = '';
+    for(let g in groups){
+        let html = `<div class="group-title">Group ${g}</div><table>
+        <tr><th>#</th><th>Team</th><th>M</th><th>W</th><th>D</th><th>L</th><th>Goals</th><th>Points</th></tr>`;
+        let sorted = [...groups[g]].sort((a,b)=>{
+            let ptsB = calculatePoints(b), ptsA = calculatePoints(a);
+            if(ptsB!==ptsA) return ptsB-ptsA;
+            let gdB = b.gf-b.ga, gdA = a.gf-a.ga;
+            if(gdB!==gdA) return gdB-gdA;
+            return b.gf - a.gf;
+        });
+        sorted.forEach((t,i)=>{
+            html += `<tr>
+                <td>${i+1}</td>
+                <td class="team">${t.name}</td>
+                <td>${t.m}</td>
+                <td>${t.w}</td>
+                <td>${t.d}</td>
+                <td>${t.l}</td>
+                <td>${t.gf}:${t.ga}</td>
+                <td>${calculatePoints(t)}</td>
+            </tr>`;
+        });
+        html += `</table>`;
+        container.innerHTML += html;
+    }
+}
+
+// Get advancing teams
+function getAdvancingTeams(){
+    let advancing=[];
+    for(let g in groups){
+        let sorted = [...groups[g]].sort((a,b)=>{
+            let ptsB = calculatePoints(b), ptsA = calculatePoints(a);
+            if(ptsB!==ptsA) return ptsB-ptsA;
+            let gdB = b.gf-b.ga, gdA = a.gf-a.ga;
+            if(gdB!==gdA) return gdB-gdA;
+            return b.gf - a.gf;
+        });
+        advancing.push({group:g, first:sorted[0].name, second:sorted[1].name});
+    }
+    return advancing;
+}
+
+// Update advancing table dynamically
+function updateAdvancingTable(){
+    const advTable = document.getElementById('advancing-table');
+    const advTeams = getAdvancingTeams();
+    for(let i=0;i<advTeams.length;i++){
+        const row = advTable.rows[i+1];
+        // افتراضيا تركنا -- إذا لم يكتمل كل مباريات المجموعات
+        let allMatchesPlayed = groups[advTeams[i].group].every(t=>t.m >= 4); // كل فريق لعب 4 مباريات
+        if(allMatchesPlayed){
+            row.cells[1].innerText = advTeams[i].first;
+            row.cells[2].innerText = advTeams[i].second;
+        }
+    }
+}
+
+// ----------------- INIT -----------------
+displayGroups();
+
+// Example: بعد كل تحديث لمباريات المجموعات، يمكنك استدعاء:
+updateAdvancingTable();
+
+</script>
+</body>
+</html>
