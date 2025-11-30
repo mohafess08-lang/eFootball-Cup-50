@@ -5,14 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>eFootball Cup</title>
 <style>
-body {
-    background: #111;
-    color: white;
-    font-family: Arial, sans-serif;
-    text-align: center;
-    margin: 0;
-    padding: 0;
-}
+body { background: #111; color: white; font-family: Arial, sans-serif; text-align: center; margin: 0; padding: 0; }
 h1 { margin-top: 20px; color: gold; }
 .table-container { width: 90%; max-width: 1200px; margin: auto; margin-top: 20px; }
 .group-title { color: gold; font-size: 22px; margin: 20px 0 5px 0; text-align: left; }
@@ -20,7 +13,8 @@ table { width: 100%; border-collapse: collapse; margin-bottom: 30px; }
 th, td { padding: 10px; border-bottom: 2px solid #333; }
 th { color: yellow; }
 .team { text-align: left; }
-.advancing-teams { margin-top: 30px; color: gold; font-size: 18px; }
+.advancing-teams, .knockout { margin-top: 30px; color: gold; font-size: 18px; text-align:left; max-width:1200px; margin:auto; }
+.matchup { background:#222; padding:10px; border-radius:5px; margin-bottom:5px; }
 </style>
 </head>
 <body>
@@ -29,10 +23,10 @@ th { color: yellow; }
 
 <div class="table-container" id="tables"></div>
 <div class="advancing-teams" id="advancing-teams"></div>
+<div class="knockout" id="knockout"></div>
 
 <script>
 // ----------------- DATA -----------------
-// Start all stats at 0 (before the tournament starts)
 const groups = {
     1: [
         { name: "Elhady – AC Milan", m:0,w:0,d:0,l:0,gf:0,ga:0 },
@@ -60,10 +54,8 @@ const groups = {
     ]
 };
 
-// ----------------- FUNCTIONS -----------------
-function calculatePoints(team) {
-    return team.w*3 + team.d;
-}
+// ----------------- HELPERS -----------------
+function calculatePoints(team) { return team.w*3 + team.d; }
 
 function displayGroups() {
     const container = document.getElementById('tables');
@@ -100,10 +92,9 @@ function displayGroups() {
     }
 }
 
-function showAdvancing() {
-    let advDiv = document.getElementById('advancing-teams');
-    advDiv.innerHTML = '<h2>Teams Qualified for Knockout Stage</h2>';
-    for (let g in groups) {
+function getAdvancingTeams() {
+    let advancing = [];
+    for(let g in groups){
         let sorted = [...groups[g]].sort((a,b)=>{
             let ptsA = calculatePoints(a), ptsB = calculatePoints(b);
             if(ptsB!==ptsA) return ptsB-ptsA;
@@ -111,16 +102,41 @@ function showAdvancing() {
             if(gdB!==gdA) return gdB-gdA;
             return b.gf - a.gf;
         });
-        advDiv.innerHTML += `<p>Group ${g}:<br>
-            1st: ${sorted[0].name}<br>
-            2nd: ${sorted[1].name}
-        </p>`;
+        advancing.push({group: g, first: sorted[0].name, second: sorted[1].name});
     }
+    return advancing;
+}
+
+function displayAdvancing() {
+    const advDiv = document.getElementById('advancing-teams');
+    const advancing = getAdvancingTeams();
+    advDiv.innerHTML = '<h2>Teams Qualified for Knockout Stage</h2>';
+    advancing.forEach(a=>{
+        advDiv.innerHTML += `<p>Group ${a.group}:<br>1st: ${a.first}<br>2nd: ${a.second}</p>`;
+    });
+}
+
+function displayKnockout() {
+    const koDiv = document.getElementById('knockout');
+    const adv = getAdvancingTeams();
+    koDiv.innerHTML = '<h2>Quarter-finals</h2>';
+
+    const QFs = [
+        { t1: adv[0].first, t2: adv[1].second },
+        { t1: adv[1].first, t2: adv[0].second },
+        { t1: adv[2].first, t2: adv[3].second },
+        { t1: adv[3].first, t2: adv[2].second }
+    ];
+
+    QFs.forEach((q,i)=>{
+        koDiv.innerHTML += `<div class="matchup">QF${i+1}: ${q.t1} vs ${q.t2}</div>`;
+    });
 }
 
 // ----------------- INIT -----------------
 displayGroups();
-showAdvancing();
+displayAdvancing();
+displayKnockout();
 </script>
 
 </body>
