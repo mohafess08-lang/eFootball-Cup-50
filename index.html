@@ -14,25 +14,95 @@ th, td { padding: 10px; border-bottom: 2px solid #333; }
 th { color: yellow; }
 .team { text-align: left; }
 .advancing-teams, .knockout, .matches-table { margin-top: 30px; color: gold; font-size: 18px; text-align:left; max-width:1200px; margin:auto; }
-.matchup, .match-cell { background:#222; padding:10px; border-radius:5px; margin-bottom:5px; cursor:pointer; }
-.completed { background: green; }
-.matches-container { display: flex; justify-content: space-around; }
-.matches-column { display: flex; flex-direction: column; width: 22%; }
-.match-header { font-weight: bold; text-align:center; margin-bottom:5px; }
+.matchup { background:#222; padding:10px; border-radius:5px; margin-bottom:5px; }
+.matches-table div { flex:1; margin:0 5px; }
+.matches-table ul { list-style:none; padding:0; }
+.matches-table li { margin:5px 0; }
+input.match-check { transform:scale(1.2); margin-right:5px; }
 </style>
 </head>
 <body>
 
 <h1>eFootball Cup</h1>
 
+<!-- جدول المجموعات -->
 <div class="table-container" id="tables"></div>
 
-<!-- الجدول الجديد للمباريات التي يجب اجتيازها لكل مجموعة -->
-<div class="matches-table">
-    <h2>Matches to Complete in Groups</h2>
-    <div class="matches-container" id="matches-container"></div>
+<!-- جدول المباريات لكل مجموعة -->
+<div class="matches-table" id="matches-table">
+    <h2>Group Matches Progress</h2>
+    <div style="display:flex; justify-content:space-between; max-width:1200px; margin:auto;">
+        <!-- Group A -->
+        <div>
+            <h3>Group A</h3>
+            <ul id="groupA-matches">
+                <li><input type="checkbox" class="match-check"> Amine (Napoli) vs Fouad (Netherlands NT)</li>
+                <li><input type="checkbox" class="match-check"> Amine (Napoli) vs Ayoub (Arsenal)</li>
+                <li><input type="checkbox" class="match-check"> Amine (Napoli) vs Samir (PSG)</li>
+                <li><input type="checkbox" class="match-check"> Amine (Napoli) vs Hamza (Borussia Dortmund)</li>
+                <li><input type="checkbox" class="match-check"> Fouad (Netherlands NT) vs Ayoub (Arsenal)</li>
+                <li><input type="checkbox" class="match-check"> Fouad (Netherlands NT) vs Samir (PSG)</li>
+                <li><input type="checkbox" class="match-check"> Fouad (Netherlands NT) vs Hamza (Borussia Dortmund)</li>
+                <li><input type="checkbox" class="match-check"> Ayoub (Arsenal) vs Samir (PSG)</li>
+                <li><input type="checkbox" class="match-check"> Ayoub (Arsenal) vs Hamza (Borussia Dortmund)</li>
+                <li><input type="checkbox" class="match-check"> Samir (PSG) vs Hamza (Borussia Dortmund)</li>
+            </ul>
+        </div>
+
+        <!-- Group B -->
+        <div>
+            <h3>Group B</h3>
+            <ul id="groupB-matches">
+                <li><input type="checkbox" class="match-check"> Oussama (Malaga) vs Soufiane (Barcelona)</li>
+                <li><input type="checkbox" class="match-check"> Oussama (Malaga) vs Houssam (Algeria NT)</li>
+                <li><input type="checkbox" class="match-check"> Oussama (Malaga) vs Mohamed (Manchester United)</li>
+                <li><input type="checkbox" class="match-check"> Oussama (Malaga) vs Oussama S. (Manchester City)</li>
+                <li><input type="checkbox" class="match-check"> Soufiane (Barcelona) vs Houssam (Algeria NT)</li>
+                <li><input type="checkbox" class="match-check"> Soufiane (Barcelona) vs Mohamed (Manchester United)</li>
+                <li><input type="checkbox" class="match-check"> Soufiane (Barcelona) vs Oussama S. (Manchester City)</li>
+                <li><input type="checkbox" class="match-check"> Houssam (Algeria NT) vs Mohamed (Manchester United)</li>
+                <li><input type="checkbox" class="match-check"> Houssam (Algeria NT) vs Oussama S. (Manchester City)</li>
+                <li><input type="checkbox" class="match-check"> Mohamed (Manchester United) vs Oussama S. (Manchester City)</li>
+            </ul>
+        </div>
+
+        <!-- Group C -->
+        <div>
+            <h3>Group C</h3>
+            <ul id="groupC-matches">
+                <li><input type="checkbox" class="match-check"> Moad (São Paulo) vs Elhady (AC Milan)</li>
+                <li><input type="checkbox" class="match-check"> Moad (São Paulo) vs BenTaleb (Liverpool)</li>
+                <li><input type="checkbox" class="match-check"> Moad (São Paulo) vs Dovix (Senegal)</li>
+                <li><input type="checkbox" class="match-check"> Moad (São Paulo) vs Mehdi (Morocco NT)</li>
+                <li><input type="checkbox" class="match-check"> Elhady (AC Milan) vs BenTaleb (Liverpool)</li>
+                <li><input type="checkbox" class="match-check"> Elhady (AC Milan) vs Dovix (Senegal)</li>
+                <li><input type="checkbox" class="match-check"> Elhady (AC Milan) vs Mehdi (Morocco NT)</li>
+                <li><input type="checkbox" class="match-check"> BenTaleb (Liverpool) vs Dovix (Senegal)</li>
+                <li><input type="checkbox" class="match-check"> BenTaleb (Liverpool) vs Mehdi (Morocco NT)</li>
+                <li><input type="checkbox" class="match-check"> Dovix (Senegal) vs Mehdi (Morocco NT)</li>
+            </ul>
+        </div>
+
+        <!-- Group D -->
+        <div>
+            <h3>Group D</h3>
+            <ul id="groupD-matches">
+                <li><input type="checkbox" class="match-check"> Khalid (Chelsea) vs Touati (Japan NT)</li>
+                <li><input type="checkbox" class="match-check"> Khalid (Chelsea) vs Karim (Bayern Munich)</li>
+                <li><input type="checkbox" class="match-check"> Khalid (Chelsea) vs Said (Real Madrid)</li>
+                <li><input type="checkbox" class="match-check"> Khalid (Chelsea) vs Aizen (Inter Milan)</li>
+                <li><input type="checkbox" class="match-check"> Touati (Japan NT) vs Karim (Bayern Munich)</li>
+                <li><input type="checkbox" class="match-check"> Touati (Japan NT) vs Said (Real Madrid)</li>
+                <li><input type="checkbox" class="match-check"> Touati (Japan NT) vs Aizen (Inter Milan)</li>
+                <li><input type="checkbox" class="match-check"> Karim (Bayern Munich) vs Said (Real Madrid)</li>
+                <li><input type="checkbox" class="match-check"> Karim (Bayern Munich) vs Aizen (Inter Milan)</li>
+                <li><input type="checkbox" class="match-check"> Said (Real Madrid) vs Aizen (Inter Milan)</li>
+            </ul>
+        </div>
+    </div>
 </div>
 
+<!-- جدول الفرق المتأهلة للأدوار الإقصائية -->
 <div class="advancing-teams">
     <h2>Teams Qualified for Knockout Stage</h2>
     <table id="advancing-table">
@@ -44,20 +114,18 @@ th { color: yellow; }
     </table>
 </div>
 
+<!-- الجدول النهائي للأدوار الإقصائية -->
 <div class="knockout" id="knockout">
     <h2>Quarter-finals</h2>
     <div class="matchup">QF1: -- vs --</div>
     <div class="matchup">QF2: -- vs --</div>
     <div class="matchup">QF3: -- vs --</div>
     <div class="matchup">QF4: -- vs --</div>
-
     <h2>Semi-finals</h2>
     <div class="matchup">SF1: -- vs --</div>
     <div class="matchup">SF2: -- vs --</div>
-
     <h2>Final</h2>
     <div class="matchup">Final: -- vs --</div>
-
     <h2>Third Place</h2>
     <div class="matchup">3rd Place: -- vs --</div>
 </div>
@@ -98,7 +166,6 @@ const groups = {
 // ----------------- HELPERS -----------------
 function calculatePoints(team){ return team.w*3 + team.d; }
 
-// ----------------- Display Groups -----------------
 function displayGroups(){
     const container = document.getElementById('tables');
     container.innerHTML = '';
@@ -129,37 +196,41 @@ function displayGroups(){
     }
 }
 
-// ----------------- Matches Table -----------------
-function displayMatchesTable(){
-    const container = document.getElementById('matches-container');
-    container.innerHTML = '';
+// Get advancing teams
+function getAdvancingTeams(){
+    let advancing=[];
     for(let g in groups){
-        let col = document.createElement('div');
-        col.className = 'matches-column';
-        col.innerHTML = `<div class="match-header">Group ${g}</div>`;
-        groups[g].forEach((team,i)=>{
-            let matchDiv = document.createElement('div');
-            matchDiv.className = 'match-cell';
-            matchDiv.dataset.group = g;
-            matchDiv.dataset.teamIndex = i;
-            matchDiv.innerText = `Match ${i+1} (${team.name})`;
-            matchDiv.onclick = function(){
-                if(this.classList.contains('completed')){
-                    this.classList.remove('completed');
-                } else {
-                    this.classList.add('completed');
-                }
-            };
-            col.appendChild(matchDiv);
+        let sorted = [...groups[g]].sort((a,b)=>{
+            let ptsB = calculatePoints(b), ptsA = calculatePoints(a);
+            if(ptsB!==ptsA) return ptsB-ptsA;
+            let gdB = b.gf-b.ga, gdA = a.gf-a.ga;
+            if(gdB!==gdA) return gdB-gdA;
+            return b.gf - a.gf;
         });
-        container.appendChild(col);
+        advancing.push({group:g, first:sorted[0].name, second:sorted[1].name});
+    }
+    return advancing;
+}
+
+// Update advancing table dynamically
+function updateAdvancingTable(){
+    const advTable = document.getElementById('advancing-table');
+    const advTeams = getAdvancingTeams();
+    for(let i=0;i<advTeams.length;i++){
+        const row = advTable.rows[i+1];
+        let allMatchesPlayed = groups[advTeams[i].group].every(t=>t.m >= 4);
+        if(allMatchesPlayed){
+            row.cells[1].innerText = advTeams[i].first;
+            row.cells[2].innerText = advTeams[i].second;
+        }
     }
 }
 
 // ----------------- INIT -----------------
 displayGroups();
-displayMatchesTable();
+updateAdvancingTable();
 </script>
 
 </body>
 </html>
+
