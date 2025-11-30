@@ -4,7 +4,6 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>eFootball Cup</title>
-
 <style>
 body {
     background: #111;
@@ -14,714 +13,113 @@ body {
     margin: 0;
     padding: 0;
 }
-
-h1 {
-    margin-top: 20px;
-    color: gold;
-}
-
-.table-container {
-    width: 90%;
-    max-width: 1200px;
-    margin: auto;
-    margin-top: 20px;
-}
-
-.group-title {
-    color: gold;
-    font-size: 22px;
-    margin: 20px 0 5px 0;
-    text-align: left;
-}
-
-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-bottom: 30px;
-}
-
-th, td {
-    padding: 10px;
-    border-bottom: 2px solid #333;
-}
-
-th {
-    color: yellow;
-}
-
-.team {
-    text-align: left;
-}
-
-.admin-btn {
-    margin-top: 30px;
-    background: gold;
-    color: black;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    font-weight: bold;
-    font-size: 16px;
-}
-
-.admin-btn:hover {
-    background: #ffd700;
-}
-
-.admin-panel {
-    display: none;
-    margin-top: 30px;
-    text-align: left;
-    width: 90%;
-    max-width: 1200px;
-    margin: auto;
-}
-
-.match {
-    margin-bottom: 10px;
-    padding: 10px;
-    background: #222;
-    border-radius: 5px;
-}
-
-.match input[type="number"] {
-    width: 50px;
-}
-
-.update-btn {
-    background: gold;
-    color: black;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    font-weight: bold;
-    margin-top: 20px;
-}
-
-.advancing-teams {
-    margin-top: 30px;
-    color: gold;
-    font-size: 18px;
-}
-
-.knockout-stage {
-    display: none;
-    margin-top: 30px;
-    text-align: left;
-    width: 90%;
-    max-width: 1200px;
-    margin: auto;
-}
-
-.stage-title {
-    color: gold;
-    font-size: 20px;
-    margin: 20px 0 10px 0;
-}
-
-.matchup {
-    margin-bottom: 10px;
-    padding: 10px;
-    background: #222;
-    border-radius: 5px;
-}
+h1 { margin-top: 20px; color: gold; }
+.table-container { width: 90%; max-width: 1200px; margin: auto; margin-top: 20px; }
+.group-title { color: gold; font-size: 22px; margin: 20px 0 5px 0; text-align: left; }
+table { width: 100%; border-collapse: collapse; margin-bottom: 30px; }
+th, td { padding: 10px; border-bottom: 2px solid #333; }
+th { color: yellow; }
+.team { text-align: left; }
+.advancing-teams { margin-top: 30px; color: gold; font-size: 18px; }
 </style>
-
 </head>
 <body>
 
 <h1>eFootball Cup</h1>
 
-<div class="table-container">
-
-    <div class="group-title">Group 1</div>
-    <table id="group1-table">
-        <tr>
-            <th>#</th><th>Team</th><th>M</th><th>W</th><th>D</th><th>L</th><th>Goals</th><th>Points</th>
-        </tr>
-        <tr><td>1</td><td class="team">Elhady – AC Milan</td><td id="m1-1">0</td><td id="w1-1">0</td><td id="d1-1">0</td><td id="l1-1">0</td><td id="g1-1">0:0</td><td id="pts1-1">0</td></tr>
-        <tr><td>2</td><td class="team">Hamza – Borussia Dortmund</td><td id="m1-2">0</td><td id="w1-2">0</td><td id="d1-2">0</td><td id="l1-2">0</td><td id="g1-2">0:0</td><td id="pts1-2">0</td></tr>
-        <tr><td>3</td><td class="team">Fouad – Hollande</td><td id="m1-3">0</td><td id="w1-3">0</td><td id="d1-3">0</td><td id="l1-3">0</td><td id="g1-3">0:0</td><td id="pts1-3">0</td></tr>
-        <tr><td>4</td><td class="team">Touati – Japan</td><td id="m1-4">0</td><td id="w1-4">0</td><td id="d1-4">0</td><td id="l1-4">0</td><td id="g1-4">0:0</td><td id="pts1-4">0</td></tr>
-    </table>
-
-    <div class="group-title">Group 2</div>
-    <table id="group2-table">
-        <tr>
-            <th>#</th><th>Team</th><th>M</th><th>W</th><th>D</th><th>L</th><th>Goals</th><th>Points</th>
-        </tr>
-        <tr><td>1</td><td class="team">Soufiane – FC Barcelona</td><td id="m2-1">0</td><td id="w2-1">0</td><td id="d2-1">0</td><td id="l2-1">0</td><td id="g2-1">0:0</td><td id="pts2-1">0</td></tr>
-        <tr><td>2</td><td class="team">Oussama – Manchester United</td><td id="m2-2">0</td><td id="w2-2">0</td><td id="d2-2">0</td><td id="l2-2">0</td><td id="g2-2">0:0</td><td id="pts2-2">0</td></tr>
-        <tr><td>3</td><td class="team">Mehdi – Morocco</td><td id="m2-3">0</td><td id="w2-3">0</td><td id="d2-3">0</td><td id="l2-3">0</td><td id="g2-3">0:0</td><td id="pts2-3">0</td></tr>
-        <tr><td>4</td><td class="team">Ben Taleb – Liverpool</td><td id="m2-4">0</td><td id="w2-4">0</td><td id="d2-4">0</td><td id="l2-4">0</td><td id="g2-4">0:0</td><td id="pts2-4">0</td></tr>
-    </table>
-
-    <div class="group-title">Group 3</div>
-    <table id="group3-table">
-        <tr>
-            <th>#</th><th>Team</th><th>M</th><th>W</th><th>D</th><th>L</th><th>Goals</th><th>Points</th>
-        </tr>
-        <tr><td>1</td><td class="team">Karim – Bayern Munich</td><td id="m3-1">0</td><td id="w3-1">0</td><td id="d3-1">0</td><td id="l3-1">0</td><td id="g3-1">0:0</td><td id="pts3-1">0</td></tr>
-        <tr><td>2</td><td class="team">Ayoub – Arsenal</td><td id="m3-2">0</td><td id="w3-2">0</td><td id="d3-2">0</td><td id="l3-2">0</td><td id="g3-2">0:0</td><td id="pts3-2">0</td></tr>
-        <tr><td>3</td><td class="team">Houssam – Algeria</td><td id="m3-3">0</td><td id="w3-3">0</td><td id="d3-3">0</td><td id="l3-3">0</td><td id="g3-3">0:0</td><td id="pts3-3">0</td></tr>
-        <tr><td>4</td><td class="team">Samir – Paris Saint-Germain</td><td id="m3-4">0</td><td id="w3-4">0</td><td id="d3-4">0</td><td id="l3-4">0</td><td id="g3-4">0:0</td><td id="pts3-4">0</td></tr>
-    </table>
-
-    <div class="group-title">Group 4</div>
-    <table id="group4-table">
-        <tr>
-            <th>#</th><th>Team</th><th>M</th><th>W</th><th>D</th><th>L</th><th>Goals</th><th>Points</th>
-        </tr>
-        <tr><td>1</td><td class="team">Aizen – Inter Milan</td><td id="m4-1">0</td><td id="w4-1">0</td><td id="d4-1">0</td><td id="l4-1">0</td><td id="g4-1">0:0</td><td id="pts4-1">0</td></tr>
-        <tr><td>2</td><td class="team">Said – Real Madrid</td><td id="m4-2">0</td><td id="w4-2">0</td><td id="d4-2">0</td><td id="l4-2">0</td><td id="g4-2">0:0</td><td id="pts4-2">0</td></tr>
-        <tr><td>3</td><td class="team">Mohmed – Manchester United</td><td id="m4-3">0</td><td id="w4-3">0</td><td id="d4-3">0</td><td id="l4-3">0</td><td id="g4-3">0:0</td><td id="pts4-3">0</td></tr>
-        <tr><td>4</td><td class="team">Dovix – Algeria</td><td id="m4-4">0</td><td id="w4-4">0</td><td id="d4-4">0</td><td id="l4-4">0</td><td id="g4-4">0:0</td><td id="pts4-4">0</td></tr>
-    </table>
-</div>
-
+<div class="table-container" id="tables"></div>
 <div class="advancing-teams" id="advancing-teams"></div>
 
-<div class="knockout-stage" id="knockout-stage">
-    <div class="stage-title">Quarter-finals</div>
-    <div id="qf-display"></div>
-
-    <div class="stage-title">Semi-finals</div>
-    <div id="sf-display"></div>
-
-    <div class="stage-title">Final</div>
-    <div id="final-display"></div>
-
-    <div class="stage-title">Third-place Match</div>
-    <div id="third-display"></div>
-</div>
-
-<button class="admin-btn" onclick="login()">Admin Panel</button>
-
-<div class="admin-panel" id="admin-panel">
-    <h2>Admin Panel - Enter Match Results</h2>
-    <div id="group-matches"></div>
-    <button class="update-btn" onclick="updateGroupStandings()">Update Group Standings</button>
-
-    <div id="knockout-matches" style="display:none;">
-        <h3>Knockout Stage Matches</h3>
-        <div id="ko-matches"></div>
-        <button class="update-btn" onclick="updateKnockout()">Update Knockout Results</button>
-    </div>
-</div>
-
 <script>
-const GROUP_SCORES_KEY = 'efc_group_scores';
-const KO_SCORES_KEY    = 'efc_ko_scores';
-
-let teams = {
-    1: ["Elhady – AC Milan", "Hamza – Borussia Dortmund", "Fouad – Hollande", "Touati – Japan"],
-    2: ["Soufiane – FC Barcelona", "Oussama – Manchester United", "Mehdi – Morocco", "Ben Taleb – Liverpool"],
-    3: ["Karim – Bayern Munich", "Ayoub – Arsenal", "Houssam – Algeria", "Samir – Paris Saint-Germain"],
-    4: ["Aizen – Inter Milan", "Said – Real Madrid", "Mohmed – Manchester United", "Dovix – Algeria"]
+// ----------------- DATA -----------------
+const groups = {
+    1: [
+        { name: "Elhady – AC Milan", m: 3, w: 2, d: 0, l: 1, gf: 5, ga: 3 },
+        { name: "Hamza – Borussia Dortmund", m: 3, w: 1, d: 1, l: 1, gf: 4, ga: 4 },
+        { name: "Fouad – Hollande", m: 3, w: 1, d: 0, l: 2, gf: 3, ga: 5 },
+        { name: "Touati – Japan", m: 3, w: 0, d: 1, l: 2, gf: 2, ga: 2 }
+    ],
+    2: [
+        { name: "Soufiane – FC Barcelona", m: 3, w: 3, d: 0, l: 0, gf: 7, ga: 2 },
+        { name: "Oussama – Manchester United", m: 3, w: 2, d: 0, l: 1, gf: 5, ga: 3 },
+        { name: "Mehdi – Morocco", m: 3, w: 0, d: 1, l: 2, gf: 1, ga: 4 },
+        { name: "Ben Taleb – Liverpool", m: 3, w: 0, d: 1, l: 2, gf: 1, ga: 5 }
+    ],
+    3: [
+        { name: "Karim – Bayern Munich", m: 3, w: 2, d: 1, l: 0, gf: 6, ga: 3 },
+        { name: "Ayoub – Arsenal", m: 3, w: 2, d: 0, l: 1, gf: 5, ga: 4 },
+        { name: "Houssam – Algeria", m: 3, w: 1, d: 0, l: 2, gf: 3, ga: 6 },
+        { name: "Samir – Paris Saint-Germain", m: 3, w: 0, d: 1, l: 2, gf: 2, ga: 3 }
+    ],
+    4: [
+        { name: "Aizen – Inter Milan", m: 3, w: 2, d: 1, l: 0, gf: 5, ga: 1 },
+        { name: "Said – Real Madrid", m: 3, w: 1, d: 1, l: 1, gf: 3, ga: 3 },
+        { name: "Mohmed – Manchester United", m: 3, w: 1, d: 0, l: 2, gf: 2, ga: 4 },
+        { name: "Dovix – Algeria", m: 3, w: 0, d: 0, l: 3, gf: 1, ga: 3 }
+    ]
 };
 
-let advancingTeams = [];
-let quarterFinalsPairs = [];
-let semiFinalsPairs = [];
-let finalPair = null;
-let thirdPair = null;
-
-function login() {
-    let pass = prompt("Password:");
-    if (pass === "eFootballAdmin") {
-        alert("Welcome Admin! يمكنك الآن تعديل النتائج.");
-        document.getElementById('admin-panel').style.display = 'block';
-        document.getElementById('knockout-stage').style.display = 'block';
-        // generateGroupMatches already called on load
-    } else {
-        alert("Incorrect password!");
-    }
+// ----------------- FUNCTIONS -----------------
+function calculatePoints(team) {
+    return team.w*3 + team.d;
 }
 
-// --------- GROUP MATCHES UI ---------
-function generateGroupMatches() {
-    let matchesDiv = document.getElementById('group-matches');
-    matchesDiv.innerHTML = '';
-    for (let group = 1; group <= 4; group++) {
-        matchesDiv.innerHTML += `<h3>Group ${group}</h3>`;
-        let groupTeams = teams[group];
-        for (let i = 0; i < groupTeams.length; i++) {
-            for (let j = i + 1; j < groupTeams.length; j++) {
-                let matchKey = `${group}-${i}-${j}`;
-                matchesDiv.innerHTML += `
-                    <div class="match">
-                        ${groupTeams[i]}
-                        <input type="number" id="g1-${matchKey}" min="0" placeholder="0">
-                        :
-                        <input type="number" id="g2-${matchKey}" min="0" placeholder="0">
-                        ${groupTeams[j]}
-                    </div>
-                `;
-            }
-        }
-    }
-}
+function displayGroups() {
+    const container = document.getElementById('tables');
+    container.innerHTML = '';
+    for (let g in groups) {
+        let html = `<div class="group-title">Group ${g}</div>`;
+        html += `<table><tr>
+            <th>#</th><th>Team</th><th>M</th><th>W</th><th>D</th><th>L</th><th>Goals</th><th>Points</th>
+        </tr>`;
 
-// --------- localStorage HELPERS (GROUP) ---------
-function saveGroupScores() {
-    let data = {};
-    for (let group = 1; group <= 4; group++) {
-        let groupTeams = teams[group];
-        for (let i = 0; i < groupTeams.length; i++) {
-            for (let j = i + 1; j < groupTeams.length; j++) {
-                let matchKey = `${group}-${i}-${j}`;
-                let g1 = document.getElementById(`g1-${matchKey}`);
-                let g2 = document.getElementById(`g2-${matchKey}`);
-                if (!g1 || !g2) continue;
-                let v1 = g1.value.trim();
-                let v2 = g2.value.trim();
-                if (v1 !== "" && v2 !== "") {
-                    data[matchKey] = { g1: v1, g2: v2 };
-                }
-            }
-        }
-    }
-    localStorage.setItem(GROUP_SCORES_KEY, JSON.stringify(data));
-}
-
-function loadGroupScores() {
-    let stored = localStorage.getItem(GROUP_SCORES_KEY);
-    if (!stored) return false;
-    let data;
-    try {
-        data = JSON.parse(stored);
-    } catch (e) {
-        return false;
-    }
-    let hasAny = false;
-    for (let group = 1; group <= 4; group++) {
-        let groupTeams = teams[group];
-        for (let i = 0; i < groupTeams.length; i++) {
-            for (let j = i + 1; j < groupTeams.length; j++) {
-                let matchKey = `${group}-${i}-${j}`;
-                let g1 = document.getElementById(`g1-${matchKey}`);
-                let g2 = document.getElementById(`g2-${matchKey}`);
-                if (!g1 || !g2) continue;
-                if (data[matchKey]) {
-                    g1.value = data[matchKey].g1;
-                    g2.value = data[matchKey].g2;
-                    hasAny = true;
-                }
-            }
-        }
-    }
-    return hasAny;
-}
-
-// --------- GROUP STANDINGS ---------
-function updateGroupStandings() {
-    let stats = {};
-    for (let group = 1; group <= 4; group++) {
-        stats[group] = {};
-        for (let i = 0; i < 4; i++) {
-            stats[group][i] = { m: 0, w: 0, d: 0, l: 0, gf: 0, ga: 0, pts: 0 };
-        }
-    }
-
-    let hasAnyResult = false;
-
-    for (let group = 1; group <= 4; group++) {
-        let groupTeams = teams[group];
-        for (let i = 0; i < groupTeams.length; i++) {
-            for (let j = i + 1; j < groupTeams.length; j++) {
-                let matchKey = `${group}-${i}-${j}`;
-                let g1Elem = document.getElementById(`g1-${matchKey}`);
-                let g2Elem = document.getElementById(`g2-${matchKey}`);
-                if (!g1Elem || !g2Elem) continue;
-
-                let val1 = g1Elem.value.trim();
-                let val2 = g2Elem.value.trim();
-                if (val1 === "" || val2 === "") continue;
-
-                hasAnyResult = true;
-
-                let goals1 = parseInt(val1, 10);
-                let goals2 = parseInt(val2, 10);
-                if (isNaN(goals1) || isNaN(goals2)) continue;
-
-                stats[group][i].m++;
-                stats[group][j].m++;
-
-                stats[group][i].gf += goals1;
-                stats[group][i].ga += goals2;
-                stats[group][j].gf += goals2;
-                stats[group][j].ga += goals1;
-
-                if (goals1 > goals2) {
-                    stats[group][i].w++;
-                    stats[group][j].l++;
-                    stats[group][i].pts += 3;
-                } else if (goals2 > goals1) {
-                    stats[group][j].w++;
-                    stats[group][i].l++;
-                    stats[group][j].pts += 3;
-                } else {
-                    stats[group][i].d++;
-                    stats[group][j].d++;
-                    stats[group][i].pts += 1;
-                    stats[group][j].pts += 1;
-                }
-            }
-        }
-    }
-
-    // تحديث الجداول
-    for (let group = 1; group <= 4; group++) {
-        let table = document.getElementById(`group${group}-table`);
-        let rows = table.rows;
-        for (let i = 1; i < rows.length; i++) {
-            let idx = i - 1;
-            rows[i].cells[2].innerText = stats[group][idx].m;
-            rows[i].cells[3].innerText = stats[group][idx].w;
-            rows[i].cells[4].innerText = stats[group][idx].d;
-            rows[i].cells[5].innerText = stats[group][idx].l;
-            rows[i].cells[6].innerText = `${stats[group][idx].gf}:${stats[group][idx].ga}`;
-            rows[i].cells[7].innerText = stats[group][idx].pts;
-        }
-    }
-
-    // المتأهلين
-    advancingTeams = [];
-    for (let group = 1; group <= 4; group++) {
-        let groupArray = [];
-        for (let i = 0; i < 4; i++) {
-            groupArray.push({
-                name: teams[group][i],
-                pts: stats[group][i].pts,
-                gd: stats[group][i].gf - stats[group][i].ga,
-                gf: stats[group][i].gf
-            });
-        }
-        groupArray.sort((a, b) => {
-            if (b.pts !== a.pts) return b.pts - a.pts;
-            if (b.gd !== a.gd) return b.gd - a.gd;
+        let sorted = [...groups[g]].sort((a,b)=>{
+            let ptsA = calculatePoints(a), ptsB = calculatePoints(b);
+            if(ptsB!==ptsA) return ptsB-ptsA;
+            let gdA = a.gf - a.ga, gdB = b.gf - b.ga;
+            if(gdB!==gdA) return gdB-gdA;
             return b.gf - a.gf;
         });
-        advancingTeams.push({ group: group, position: 1, name: groupArray[0].name });
-        advancingTeams.push({ group: group, position: 2, name: groupArray[1].name });
-    }
 
+        sorted.forEach((team,i)=>{
+            html += `<tr>
+                <td>${i+1}</td>
+                <td class="team">${team.name}</td>
+                <td>${team.m}</td>
+                <td>${team.w}</td>
+                <td>${team.d}</td>
+                <td>${team.l}</td>
+                <td>${team.gf}:${team.ga}</td>
+                <td>${calculatePoints(team)}</td>
+            </tr>`;
+        });
+
+        html += `</table>`;
+        container.innerHTML += html;
+    }
+}
+
+function showAdvancing() {
     let advDiv = document.getElementById('advancing-teams');
-    if (!hasAnyResult) {
-        advDiv.innerHTML = "";
-    } else {
-        let html = "<h2>Teams Qualified for Knockout Stage</h2>";
-        for (let group = 1; group <= 4; group++) {
-            let first = advancingTeams.find(t => t.group === group && t.position === 1).name;
-            let second = advancingTeams.find(t => t.group === group && t.position === 2).name;
-            html += `<p>Group ${group}:<br>
-                1st: ${first}<br>
-                2nd: ${second}
-            </p>`;
-        }
-        advDiv.innerHTML = html;
-    }
-
-    // حفظ النتائج فـ localStorage
-    saveGroupScores();
-
-    // إعداد الأدوار الإقصائية إلا كان شي ماتش تلعب
-    if (hasAnyResult) {
-        setupKnockout();
+    advDiv.innerHTML = '<h2>Teams Qualified for Knockout Stage</h2>';
+    for (let g in groups) {
+        let sorted = [...groups[g]].sort((a,b)=>{
+            let ptsA = calculatePoints(a), ptsB = calculatePoints(b);
+            if(ptsB!==ptsA) return ptsB-ptsA;
+            let gdA = a.gf - a.ga, gdB = b.gf - b.ga;
+            if(gdB!==gdA) return gdB-gdA;
+            return b.gf - a.gf;
+        });
+        advDiv.innerHTML += `<p>Group ${g}:<br>
+            1st: ${sorted[0].name}<br>
+            2nd: ${sorted[1].name}
+        </p>`;
     }
 }
 
-// --------- HELPERS: KO ---------
-function getAdvancingName(group, position) {
-    let obj = advancingTeams.find(t => t.group === group && t.position === position);
-    return obj ? obj.name : "TBD";
-}
-
-function setupKnockout() {
-    if (advancingTeams.length < 8) return;
-
-    document.getElementById('knockout-stage').style.display = 'block';
-    document.getElementById('knockout-matches').style.display = 'block';
-
-    quarterFinalsPairs = [
-        { id: "Q1", t1: getAdvancingName(1,1), t2: getAdvancingName(2,2) },
-        { id: "Q2", t1: getAdvancingName(2,1), t2: getAdvancingName(1,2) },
-        { id: "Q3", t1: getAdvancingName(3,1), t2: getAdvancingName(4,2) },
-        { id: "Q4", t1: getAdvancingName(4,1), t2: getAdvancingName(3,2) }
-    ];
-
-    let qfDisp = document.getElementById('qf-display');
-    qfDisp.innerHTML = "";
-    quarterFinalsPairs.forEach((m, idx) => {
-        qfDisp.innerHTML += `<div class="matchup">Q${idx+1}: ${m.t1} vs ${m.t2}</div>`;
-    });
-
-    let koDiv = document.getElementById('ko-matches');
-    koDiv.innerHTML = "";
-
-    koDiv.innerHTML += `<h4>Quarter-finals</h4>`;
-    quarterFinalsPairs.forEach((m, idx) => {
-        let num = idx + 1;
-        koDiv.innerHTML += `
-            <div class="match">
-                Q${num}: ${m.t1}
-                <input type="number" id="qf${num}-g1" min="0" placeholder="0">
-                :
-                <input type="number" id="qf${num}-g2" min="0" placeholder="0">
-                ${m.t2}
-            </div>
-        `;
-    });
-
-    koDiv.innerHTML += `<h4>Semi-finals</h4>`;
-    koDiv.innerHTML += `
-        <div class="match">
-            SF1: <span id="sf1-team1">Winner Q1</span>
-            <input type="number" id="sf1-g1" min="0" placeholder="0">
-            :
-            <input type="number" id="sf1-g2" min="0" placeholder="0">
-            <span id="sf1-team2">Winner Q2</span>
-        </div>
-        <div class="match">
-            SF2: <span id="sf2-team1">Winner Q3</span>
-            <input type="number" id="sf2-g1" min="0" placeholder="0">
-            :
-            <input type="number" id="sf2-g2" min="0" placeholder="0">
-            <span id="sf2-team2">Winner Q4</span>
-        </div>
-    `;
-
-    koDiv.innerHTML += `<h4>Final</h4>`;
-    koDiv.innerHTML += `
-        <div class="match">
-            Final: <span id="final-team1">Winner SF1</span>
-            <input type="number" id="final-g1" min="0" placeholder="0">
-            :
-            <input type="number" id="final-g2" min="0" placeholder="0">
-            <span id="final-team2">Winner SF2</span>
-        </div>
-    `;
-
-    koDiv.innerHTML += `<h4>Third-place Match</h4>`;
-    koDiv.innerHTML += `
-        <div class="match">
-            3rd place: <span id="third-team1">Loser SF1</span>
-            <input type="number" id="third-g1" min="0" placeholder="0">
-            :
-            <input type="number" id="third-g2" min="0" placeholder="0">
-            <span id="third-team2">Loser SF2</span>
-        </div>
-    `;
-}
-
-// --------- localStorage HELPERS (KO) ---------
-function saveKnockoutScores() {
-    let data = {};
-
-    function savePair(key, idPrefix) {
-        let g1 = document.getElementById(`${idPrefix}-g1`);
-        let g2 = document.getElementById(`${idPrefix}-g2`);
-        if (g1 && g2 && g1.value.trim() !== "" && g2.value.trim() !== "") {
-            data[key] = { g1: g1.value.trim(), g2: g2.value.trim() };
-        }
-    }
-
-    savePair('qf1', 'qf1');
-    savePair('qf2', 'qf2');
-    savePair('qf3', 'qf3');
-    savePair('qf4', 'qf4');
-    savePair('sf1', 'sf1');
-    savePair('sf2', 'sf2');
-    savePair('final', 'final');
-    savePair('third', 'third');
-
-    localStorage.setItem(KO_SCORES_KEY, JSON.stringify(data));
-}
-
-function loadKnockoutScores() {
-    let stored = localStorage.getItem(KO_SCORES_KEY);
-    if (!stored) return false;
-    let data;
-    try {
-        data = JSON.parse(stored);
-    } catch (e) {
-        return false;
-    }
-    let hasAny = false;
-
-    function loadPair(key, idPrefix) {
-        if (!data[key]) return;
-        let g1 = document.getElementById(`${idPrefix}-g1`);
-        let g2 = document.getElementById(`${idPrefix}-g2`);
-        if (g1 && g2) {
-            g1.value = data[key].g1;
-            g2.value = data[key].g2;
-            hasAny = true;
-        }
-    }
-
-    loadPair('qf1', 'qf1');
-    loadPair('qf2', 'qf2');
-    loadPair('qf3', 'qf3');
-    loadPair('qf4', 'qf4');
-    loadPair('sf1', 'sf1');
-    loadPair('sf2', 'sf2');
-    loadPair('final', 'final');
-    loadPair('third', 'third');
-
-    return hasAny;
-}
-
-// --------- KO UPDATE ---------
-function updateKnockout() {
-    if (quarterFinalsPairs.length === 0) {
-        alert("أولاً حدّد المتأهلين من المجموعات.");
-        return;
-    }
-
-    let qWinners = [];
-    let qLosers = [];
-    for (let i = 0; i < quarterFinalsPairs.length; i++) {
-        let num = i + 1;
-        let m = quarterFinalsPairs[i];
-        let g1 = parseInt(document.getElementById(`qf${num}-g1`).value, 10);
-        let g2 = parseInt(document.getElementById(`qf${num}-g2`).value, 10);
-        if (isNaN(g1) || isNaN(g2)) continue;
-
-        if (g1 > g2) {
-            qWinners[i] = m.t1;
-            qLosers[i] = m.t2;
-        } else if (g2 > g1) {
-            qWinners[i] = m.t2;
-            qLosers[i] = m.t1;
-        } else {
-            qWinners[i] = "TBD (Draw)";
-            qLosers[i] = "TBD (Draw)";
-        }
-    }
-
-    semiFinalsPairs = [
-        { id: "SF1", t1: qWinners[0] || "TBD", t2: qWinners[1] || "TBD" },
-        { id: "SF2", t1: qWinners[2] || "TBD", t2: qWinners[3] || "TBD" }
-    ];
-
-    let sfDisp = document.getElementById('sf-display');
-    sfDisp.innerHTML = "";
-    sfDisp.innerHTML += `<div class="matchup">SF1: ${semiFinalsPairs[0].t1} vs ${semiFinalsPairs[0].t2}</div>`;
-    sfDisp.innerHTML += `<div class="matchup">SF2: ${semiFinalsPairs[1].t1} vs ${semiFinalsPairs[1].t2}</div>`;
-
-    let sf1t1 = document.getElementById('sf1-team1');
-    let sf1t2 = document.getElementById('sf1-team2');
-    let sf2t1 = document.getElementById('sf2-team1');
-    let sf2t2 = document.getElementById('sf2-team2');
-    if (sf1t1) sf1t1.innerText = semiFinalsPairs[0].t1;
-    if (sf1t2) sf1t2.innerText = semiFinalsPairs[0].t2;
-    if (sf2t1) sf2t1.innerText = semiFinalsPairs[1].t1;
-    if (sf2t2) sf2t2.innerText = semiFinalsPairs[1].t2;
-
-    let sfWinners = [];
-    let sfLosers = [];
-
-    let sf1g1 = parseInt(document.getElementById('sf1-g1').value, 10);
-    let sf1g2 = parseInt(document.getElementById('sf1-g2').value, 10);
-    if (!isNaN(sf1g1) && !isNaN(sf1g2)) {
-        if (sf1g1 > sf1g2) {
-            sfWinners[0] = semiFinalsPairs[0].t1;
-            sfLosers[0] = semiFinalsPairs[0].t2;
-        } else if (sf1g2 > sf1g1) {
-            sfWinners[0] = semiFinalsPairs[0].t2;
-            sfLosers[0] = semiFinalsPairs[0].t1;
-        }
-    }
-
-    let sf2g1 = parseInt(document.getElementById('sf2-g1').value, 10);
-    let sf2g2 = parseInt(document.getElementById('sf2-g2').value, 10);
-    if (!isNaN(sf2g1) && !isNaN(sf2g2)) {
-        if (sf2g1 > sf2g2) {
-            sfWinners[1] = semiFinalsPairs[1].t1;
-            sfLosers[1] = semiFinalsPairs[1].t2;
-        } else if (sf2g2 > sf2g1) {
-            sfWinners[1] = semiFinalsPairs[1].t2;
-            sfLosers[1] = semiFinalsPairs[1].t1;
-        }
-    }
-
-    finalPair = {
-        t1: sfWinners[0] || "Winner SF1",
-        t2: sfWinners[1] || "Winner SF2"
-    };
-    thirdPair = {
-        t1: sfLosers[0] || "Loser SF1",
-        t2: sfLosers[1] || "Loser SF2"
-    };
-
-    let f1 = document.getElementById('final-team1');
-    let f2 = document.getElementById('final-team2');
-    let t1 = document.getElementById('third-team1');
-    let t2 = document.getElementById('third-team2');
-    if (f1) f1.innerText = finalPair.t1;
-    if (f2) f2.innerText = finalPair.t2;
-    if (t1) t1.innerText = thirdPair.t1;
-    if (t2) t2.innerText = thirdPair.t2;
-
-    let finalDisp = document.getElementById('final-display');
-    finalDisp.innerHTML = `<div class="matchup">Final: ${finalPair.t1} vs ${finalPair.t2}</div>`;
-
-    let thirdDisp = document.getElementById('third-display');
-    thirdDisp.innerHTML = `<div class="matchup">3rd place: ${thirdPair.t1} vs ${thirdPair.t2}</div>`;
-
-    let champText = "";
-    let thirdText = "";
-
-    let fg1 = parseInt(document.getElementById('final-g1').value, 10);
-    let fg2 = parseInt(document.getElementById('final-g2').value, 10);
-    if (!isNaN(fg1) && !isNaN(fg2) && finalPair.t1 && finalPair.t2) {
-        if (fg1 > fg2) {
-            champText = `Champion: ${finalPair.t1} | Runner-up: ${finalPair.t2}`;
-        } else if (fg2 > fg1) {
-            champText = `Champion: ${finalPair.t2} | Runner-up: ${finalPair.t1}`;
-        }
-    }
-
-    let tg1 = parseInt(document.getElementById('third-g1').value, 10);
-    let tg2 = parseInt(document.getElementById('third-g2').value, 10);
-    if (!isNaN(tg1) && !isNaN(tg2) && thirdPair.t1 && thirdPair.t2) {
-        if (tg1 > tg2) {
-            thirdText = `3rd Place: ${thirdPair.t1} | 4th Place: ${thirdPair.t2}`;
-        } else if (tg2 > tg1) {
-            thirdText = `3rd Place: ${thirdPair.t2} | 4th Place: ${thirdPair.t1}`;
-        }
-    }
-
-    if (champText !== "") {
-        finalDisp.innerHTML += `<div class="matchup">${champText}</div>`;
-    }
-    if (thirdText !== "") {
-        thirdDisp.innerHTML += `<div class="matchup">${thirdText}</div>`;
-    }
-
-    // حفظ نتائج KO فـ localStorage
-    saveKnockoutScores();
-}
-
-// --------- RESTORE ON PAGE LOAD ---------
-document.addEventListener('DOMContentLoaded', () => {
-    // نبني فورم المجموعات حتى قبل ما يدخل الأدمين
-    generateGroupMatches();
-
-    // نرجع السكور ديال المجموعات إلا كان مخزون
-    const hasGroup = loadGroupScores();
-    if (hasGroup) {
-        updateGroupStandings(); // غادي يعاود يحسب ويدير setupKnockout
-        // من بعد ما تبنى KO، نحاول نرجع سكور KO
-        const hasKO = loadKnockoutScores();
-        if (hasKO) {
-            updateKnockout();
-        }
-    }
-});
+// ----------------- INIT -----------------
+displayGroups();
+showAdvancing();
 </script>
 
 </body>
