@@ -150,15 +150,32 @@ th { color: yellow; }
 <div class="matchup">SF1: <span contenteditable="true" class="editable">--</span> vs <span contenteditable="true" class="editable">--</span></div>
 <div class="matchup">SF2: <span contenteditable="true" class="editable">--</span> vs <span contenteditable="true" class="editable">--</span></div>
 
+    <h2>Second Place Match</h2>
+<div class="matchup">Second Place: <span contenteditable="true" class="editable">--</span> vs <span contenteditable="true" class="editable">--</span>  
+</div>
+    
 <h2>Final</h2>
 <div class="matchup">Final: <span contenteditable="true" class="editable">--</span> vs <span contenteditable="true" class="editable">--</span></div>
 
-<h2>Second Place Match</h2>
-<div class="matchup">Second Place: <span contenteditable="true" class="editable">--</span> vs <span contenteditable="true" class="editable">--</span>  
+<!-- Container for the Winner -->
+<div id="winnerContainer" style="position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); text-align: center; z-index: 1000;">
+    <h1 style="font-size: 60px; color: gold; margin: 0;">WINNER</h1>
+    <p id="winnerName" style="font-size: 30px; color: white; margin: 10px 0 0 0;">Player Name</p>
 </div>
-   <h2>Winner</h2> 
-<div class=<span contenteditable="true" class="editable">--</span></div>
+
 <script>
+    // Example: change the winner dynamically
+    function setWinner(name) {
+        document.getElementById('winnerName').textContent = name;
+        document.getElementById('winnerContainer').style.display = 'block';
+    }
+
+    // Hide initially
+    document.getElementById('winnerContainer').style.display = 'none';
+
+    // Example usage: setWinner('Elhady');
+</script>
+
 // ----------------- DATA -----------------
 const groups = {
     A: [
