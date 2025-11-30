@@ -121,10 +121,10 @@ function displayKnockout(){
     koDiv.innerHTML = '<h2>Quarter-finals</h2>';
 
     const QFs = [
-        { t1: adv[0].first, t2: adv[1].second },
-        { t1: adv[1].first, t2: adv[0].second },
-        { t1: adv[2].first, t2: adv[3].second },
-        { t1: adv[3].first, t2: adv[2].second }
+        { t1: adv[0].first, t2: adv[0].second },
+        { t1: adv[0].first, t2: adv[0].second },
+        { t1: adv[0].first, t2: adv[0].second },
+        { t1: adv[0].first, t2: adv[0].second }
     ];
 
     QFs.forEach((q,i)=>{
@@ -133,8 +133,8 @@ function displayKnockout(){
 
     // Semi-finals
     const SFs = [
-        { t1: QFs[0].t1, t2: QFs[1].t1 },
-        { t1: QFs[2].t1, t2: QFs[3].t1 }
+        { t1: QFs[0].t1, t2: QFs[0].t1 },
+        { t1: QFs[0].t1, t2: QFs[0].t1 }
     ];
     koDiv.innerHTML += '<h2>Semi-finals</h2>';
     SFs.forEach((s,i)=>{
@@ -142,12 +142,12 @@ function displayKnockout(){
     });
 
     // Final
-    const finalTeams = { t1: SFs[0].t1, t2: SFs[1].t1 };
+    const finalTeams = { t1: SFs[0].t1, t2: SFs[0].t1 };
     koDiv.innerHTML += '<h2>Final</h2>';
     koDiv.innerHTML += `<div class="matchup">Final: ${finalTeams.t1} vs ${finalTeams.t2}</div>`;
 
     // Third place
-    const thirdTeams = { t1: SFs[0].t2, t2: SFs[1].t2 };
+    const thirdTeams = { t1: SFs[0].t2, t2: SFs[0].t2 };
     koDiv.innerHTML += '<h2>Third Place</h2>';
     koDiv.innerHTML += `<div class="matchup">3rd Place: ${thirdTeams.t1} vs ${thirdTeams.t2}</div>`;
 }
