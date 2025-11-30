@@ -2,159 +2,376 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>eFootball Cup - Standings</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>eFootball Cup</title>
+
 <style>
-    body {
-        background: #0d0d0d;
-        color: white;
-        font-family: Arial, sans-serif;
-        margin: 0;
-        padding: 20px;
-    }
+body {
+    background: #111;
+    color: white;
+    font-family: Arial, sans-serif;
+    text-align: center;
+    margin: 0;
+    padding: 0;
+}
 
-    h1 {
-        text-align: center;
-        color: #FFD700;
-        margin-bottom: 30px;
-    }
+h1 {
+    margin-top: 20px;
+    color: gold;
+}
 
-    .group {
-        margin-bottom: 50px;
-        border-top: 2px solid #333;
-    }
+.table-container {
+    width: 90%;
+    max-width: 1200px;
+    margin: auto;
+    margin-top: 20px;
+}
 
-    table {
-        width: 100%;
-        border-collapse: collapse;
-        margin-top: 10px;
-    }
+.group-title {
+    color: gold;
+    font-size: 22px;
+    margin: 20px 0 5px 0;
+    text-align: left;
+}
 
-    th, td {
-        padding: 12px;
-        text-align: left;
-        border-bottom: 1px solid #333;
-    }
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 30px;
+}
 
-    th {
-        color: #FFD700;
-        font-size: 18px;
-    }
+th, td {
+    padding: 10px;
+    border-bottom: 2px solid #333;
+}
 
-    .team {
-        font-weight: bold;
-    }
+th {
+    color: yellow;
+}
 
-    #admin {
-        margin-top: 40px;
-        background: #111;
-        padding: 20px;
-        display: none;
-        border: 1px solid #333;
-    }
+.team {
+    text-align: left;
+}
 
-    button {
-        padding: 10px 20px;
-        background: #FFD700;
-        border: none;
-        font-weight: bold;
-        cursor: pointer;
-    }
+.admin-btn {
+    margin-top: 30px;
+    background: gold;
+    color: black;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 16px;
+}
 
-    button:hover {
-        opacity: 0.8;
-    }
+.admin-btn:hover {
+    background: #ffd700;
+}
+
+.admin-panel {
+    display: none;
+    margin-top: 30px;
+    text-align: left;
+    width: 90%;
+    max-width: 1200px;
+    margin: auto;
+}
+
+.match {
+    margin-bottom: 10px;
+    padding: 10px;
+    background: #222;
+    border-radius: 5px;
+}
+
+.match select {
+    margin-left: 10px;
+}
+
+.update-btn {
+    background: gold;
+    color: black;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    margin-top: 20px;
+}
+
+.advancing-teams {
+    margin-top: 30px;
+    color: gold;
+    font-size: 18px;
+}
+
+.knockout-stage {
+    display: none;
+    margin-top: 30px;
+    text-align: left;
+    width: 90%;
+    max-width: 1200px;
+    margin: auto;
+}
+
+.stage-title {
+    color: gold;
+    font-size: 20px;
+    margin: 20px 0 10px 0;
+}
+
+.matchup {
+    margin-bottom: 10px;
+    padding: 10px;
+    background: #222;
+    border-radius: 5px;
+}
+
+.matchup select {
+    margin-left: 10px;
+}
 </style>
+
 </head>
 <body>
 
-<h1>eFootball Cup – Groups & Standings</h1>
+<h1>eFootball Cup</h1>
 
-<!-- GROUP A -->
-<div class="group">
-    <h2>Group A</h2>
-    <table>
+<div class="table-container">
+
+    <div class="group-title">Group 1</div>
+    <table id="group1-table">
         <tr>
-            <th>Team</th>
-            <th>P</th>
-            <th>W</th>
-            <th>D</th>
-            <th>L</th>
-            <th>Goals</th>
-            <th>Points</th>
+            <th>#</th><th>Team</th><th>M</th><th>W</th><th>D</th><th>L</th><th>Goals</th><th>Points</th>
         </tr>
+        <tr><td>1</td><td class="team">Elhady – AC Milan</td><td id="m1-1">0</td><td id="w1-1">0</td><td id="d1-1">0</td><td id="l1-1">0</td><td id="g1-1">0:0</td><td id="pts1-1">0</td></tr>
+        <tr><td>2</td><td class="team">Hamza – Borussia Dortmund</td><td id="m1-2">0</td><td id="w1-2">0</td><td id="d1-2">0</td><td id="l1-2">0</td><td id="g1-2">0:0</td><td id="pts1-2">0</td></tr>
+        <tr><td>3</td><td class="team">Fouad – Hollande</td><td id="m1-3">0</td><td id="w1-3">0</td><td id="d1-3">0</td><td id="l1-3">0</td><td id="g1-3">0:0</td><td id="pts1-3">0</td></tr>
+        <tr><td>4</td><td class="team">Touati – Japan</td><td id="m1-4">0</td><td id="w1-4">0</td><td id="d1-4">0</td><td id="l1-4">0</td><td id="g1-4">0:0</td><td id="pts1-4">0</td></tr>
+    </table>
 
-        <tr><td class="team">Germany</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0:0</td><td>0</td></tr>
-        <tr><td class="team">Slovakia</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0:0</td><td>0</td></tr>
-        <tr><td class="team">Northern Ireland</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0:0</td><td>0</td></tr>
-        <tr><td class="team">Luxembourg</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0:0</td><td>0</td></tr>
+    <div class="group-title">Group 2</div>
+    <table id="group2-table">
+        <tr>
+            <th>#</th><th>Team</th><th>M</th><th>W</th><th>D</th><th>L</th><th>Goals</th><th>Points</th>
+        </tr>
+        <tr><td>1</td><td class="team">Soufiane – FC Barcelona</td><td id="m2-1">0</td><td id="w2-1">0</td><td id="d2-1">0</td><td id="l2-1">0</td><td id="g2-1">0:0</td><td id="pts2-1">0</td></tr>
+        <tr><td>2</td><td class="team">Oussama – Manchester United</td><td id="m2-2">0</td><td id="w2-2">0</td><td id="d2-2">0</td><td id="l2-2">0</td><td id="g2-2">0:0</td><td id="pts2-2">0</td></tr>
+        <tr><td>3</td><td class="team">Mehdi – Morocco</td><td id="m2-3">0</td><td id="w2-3">0</td><td id="d2-3">0</td><td id="l2-3">0</td><td id="g2-3">0:0</td><td id="pts2-3">0</td></tr>
+        <tr><td>4</td><td class="team">Ben Taleb – Liverpool</td><td id="m2-4">0</td><td id="w2-4">0</td><td id="d2-4">0</td><td id="l2-4">0</td><td id="g2-4">0:0</td><td id="pts2-4">0</td></tr>
+    </table>
+
+    <div class="group-title">Group 3</div>
+    <table id="group3-table">
+        <tr>
+            <th>#</th><th>Team</th><th>M</th><th>W</th><th>D</th><th>L</th><th>Goals</th><th>Points</th>
+        </tr>
+        <tr><td>1</td><td class="team">Karim – Bayern Munich</td><td id="m3-1">0</td><td id="w3-1">0</td><td id="d3-1">0</td><td id="l3-1">0</td><td id="g3-1">0:0</td><td id="pts3-1">0</td></tr>
+        <tr><td>2</td><td class="team">Ayoub – Arsenal</td><td id="m3-2">0</td><td id="w3-2">0</td><td id="d3-2">0</td><td id="l3-2">0</td><td id="g3-2">0:0</td><td id="pts3-2">0</td></tr>
+        <tr><td>3</td><td class="team">Houssam – Algeria</td><td id="m3-3">0</td><td id="w3-3">0</td><td id="d3-3">0</td><td id="l3-3">0</td><td id="g3-3">0:0</td><td id="pts3-3">0</td></tr>
+        <tr><td>4</td><td class="team">Samir – Paris Saint-Germain</td><td id="m3-4">0</td><td id="w3-4">0</td><td id="d3-4">0</td><td id="l3-4">0</td><td id="g3-4">0:0</td><td id="pts3-4">0</td></tr>
+    </table>
+
+    <div class="group-title">Group 4</div>
+    <table id="group4-table">
+        <tr>
+            <th>#</th><th>Team</th><th>M</th><th>W</th><th>D</th><th>L</th><th>Goals</th><th>Points</th>
+        </tr>
+        <!--صلحت لك الخطأ هنا: كان id ديال L مكرر -->
+        <tr><td>1</td><td class="team">Aizen – Inter Milan</td><td id="m4-1">0</td><td id="w4-1">0</td><td id="d4-1">0</td><td id="l4-1">0</td><td id="g4-1">0:0</td><td id="pts4-1">0</td></tr>
+        <tr><td>2</td><td class="team">Said – Real Madrid</td><td id="m4-2">0</td><td id="w4-2">0</td><td id="d4-2">0</td><td id="l4-2">0</td><td id="g4-2">0:0</td><td id="pts4-2">0</td></tr>
+        <tr><td>3</td><td class="team">Mohmed – Manchester United</td><td id="m4-3">0</td><td id="w4-3">0</td><td id="d4-3">0</td><td id="l4-3">0</td><td id="g4-3">0:0</td><td id="pts4-3">0</td></tr>
+        <tr><td>4</td><td class="team">Dovix – Algeria</td><td id="m4-4">0</td><td id="w4-4">0</td><td id="d4-4">0</td><td id="l4-4">0</td><td id="g4-4">0:0</td><td id="pts4-4">0</td></tr>
     </table>
 </div>
 
-<!-- GROUP B -->
-<div class="group">
-    <h2>Group B</h2>
-    <table>
-        <tr>
-            <th>Team</th>
-            <th>P</th>
-            <th>W</th>
-            <th>D</th>
-            <th>L</th>
-            <th>Goals</th>
-            <th>Points</th>
-        </tr>
-
-        <tr><td class="team">Switzerland</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0:0</td><td>0</td></tr>
-        <tr><td class="team">Kosovo</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0:0</td><td>0</td></tr>
-        <tr><td class="team">Slovenia</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0:0</td><td>0</td></tr>
-        <tr><td class="team">Sweden</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0:0</td><td>0</td></tr>
-    </table>
+<div class="advancing-teams" id="advancing-teams">
+    <!-- Advancing teams will be displayed here -->
 </div>
 
-<!-- GROUP C -->
-<div class="group">
-    <h2>Group C</h2>
-    <table>
-        <tr>
-            <th>Team</th>
-            <th>P</th>
-            <th>W</th>
-            <th>D</th>
-            <th>L</th>
-            <th>Goals</th>
-            <th>Points</th>
-        </tr>
-
-        <tr><td class="team">Scotland</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0:0</td><td>0</td></tr>
-        <tr><td class="team">Denmark</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0:0</td><td>0</td></tr>
-        <tr><td class="team">Norway</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0:0</td><td>0</td></tr>
-        <tr><td class="team">Finland</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0:0</td><td>0</td></tr>
-    </table>
+<div class="knockout-stage" id="knockout-stage">
+    <div class="stage-title">Quarter-finals</div>
+    <div id="quarter-finals">
+        <div class="matchup">Winner of Group 1 vs Runner-up of Group 2</div>
+        <div class="matchup">Winner of Group 2 vs Runner-up of Group 1</div>
+        <div class="matchup">Winner of Group 3 vs Runner-up of Group 4</div>
+        <div class="matchup">Winner of Group 4 vs Runner-up of Group 3</div>
+    </div>
+    <div class="stage-title">Semi-finals</div>
+    <div id="semi-finals">
+        <div class="matchup">Winner of Quarter-final 1 vs Winner of Quarter-final 2</div>
+        <div class="matchup">Winner of Quarter-final 3 vs Winner of Quarter-final 4</div>
+    </div>
+    <div class="stage-title">Final</div>
+    <div id="final">
+        <div class="matchup">Winner of Semi-final 1 vs Winner of Semi-final 2</div>
+    </div>
+    <div class="stage-title">Third-place Match</div>
+    <div id="third-place">
+        <div class="matchup">Loser of Semi-final 1 vs Loser of Semi-final 2</div>
+    </div>
 </div>
 
-<br><br>
+<button class="admin-btn" onclick="login()">Admin Panel</button>
 
-<button onclick="showAdmin()">Admin Panel</button>
-
-<div id="admin">
-    <h2>Enter Admin Password</h2>
-    <input id="pass" type="password" placeholder="Password">
-    <button onclick="login()">Login</button>
+<div class="admin-panel" id="admin-panel">
+    <h2>Admin Panel - Enter Match Results</h2>
+    <div id="group-matches">
+        <!-- Group matches will be generated here -->
+    </div>
+    <button class="update-btn" onclick="updateGroupStandings()">Update Group Standings</button>
 </div>
 
 <script>
-function showAdmin() {
-    document.getElementById("admin").style.display = "block";
-}
+let teams = {
+    1: ["Elhady – AC Milan", "Hamza – Borussia Dortmund", "Fouad – Hollande", "Touati – Japan"],
+    2: ["Soufiane – FC Barcelona", "Oussama – Manchester United", "Mehdi – Morocco", "Ben Taleb – Liverpool"],
+    3: ["Karim – Bayern Munich", "Ayoub – Arsenal", "Houssam – Algeria", "Samir – Paris Saint-Germain"],
+    4: ["Aizen – Inter Milan", "Said – Real Madrid", "Mohmed – Manchester United", "Dovix – Algeria"]
+};
+
+let advancingTeams = [];
 
 function login() {
-    let p = document.getElementById("pass").value;
-
-    if (p === "eFootballAdmin") {
-        alert("Welcome Admin! لكن التعديل هنا مازال بسيط. يمكنني إضافة نظام تعديل كامل إذا أردت.");
+    let pass = prompt("Password:");
+    if (pass === "eFootballAdmin") {
+        alert("Welcome Admin! يمكنك الآن تعديل النتائج.");
+        document.getElementById('admin-panel').style.display = 'block';
+        document.getElementById('knockout-stage').style.display = 'block';
+        generateGroupMatches();
     } else {
-        alert("Wrong password!");
+        alert("Incorrect password!");
     }
+}
+
+function generateGroupMatches() {
+    let matchesDiv = document.getElementById('group-matches');
+    matchesDiv.innerHTML = '';
+    for (let group = 1; group <= 4; group++) {
+        matchesDiv.innerHTML += `<h3>Group ${group}</h3>`;
+        let groupTeams = teams[group];
+        for (let i = 0; i < groupTeams.length; i++) {
+            for (let j = i + 1; j < groupTeams.length; j++) {
+                let matchId = `match-${group}-${i}-${j}`;
+                matchesDiv.innerHTML += `
+                    <div class="match">
+                        ${groupTeams[i]} vs ${groupTeams[j]}
+                        <select id="${matchId}">
+                            <option value="">Select Result</option>
+                            <option value="win1">${groupTeams[i]} Wins</option>
+                            <option value="win2">${groupTeams[j]} Wins</option>
+                            <option value="draw">Draw</option>
+                        </select>
+                    </div>
+                `;
+            }
+        }
+    }
+}
+
+function updateGroupStandings() {
+    // Reset stats
+    let stats = {};
+    for (let group = 1; group <= 4; group++) {
+        stats[group] = {};
+        for (let i = 0; i < 4; i++) {
+            stats[group][i] = { m: 0, w: 0, d: 0, l: 0, gf: 0, ga: 0, pts: 0 };
+        }
+    }
+
+    // Process results
+    for (let group = 1; group <= 4; group++) {
+        let groupTeams = teams[group];
+        for (let i = 0; i < groupTeams.length; i++) {
+            for (let j = i + 1; j < groupTeams.length; j++) {
+                let matchId = `match-${group}-${i}-${j}`;
+                let resultElem = document.getElementById(matchId);
+                if (!resultElem) continue;
+                let result = resultElem.value;
+
+                if (result) {
+                    stats[group][i].m++;
+                    stats[group][j].m++;
+                    if (result === 'win1') {
+                        stats[group][i].w++;
+                        stats[group][j].l++;
+                        stats[group][i].pts += 3;
+                        // نموذج بسيط للأهداف (يمكن تغييره)
+                        stats[group][i].gf += 2;
+                        stats[group][i].ga += 1;
+                        stats[group][j].gf += 1;
+                        stats[group][j].ga += 2;
+                    } else if (result === 'win2') {
+                        stats[group][j].w++;
+                        stats[group][i].l++;
+                        stats[group][j].pts += 3;
+                        stats[group][j].gf += 2;
+                        stats[group][j].ga += 1;
+                        stats[group][i].gf += 1;
+                        stats[group][i].ga += 2;
+                    } else if (result === 'draw') {
+                        stats[group][i].d++;
+                        stats[group][j].d++;
+                        stats[group][i].pts += 1;
+                        stats[group][j].pts += 1;
+                        stats[group][i].gf += 1;
+                        stats[group][i].ga += 1;
+                        stats[group][j].gf += 1;
+                        stats[group][j].ga += 1;
+                    }
+                }
+            }
+        }
+    }
+
+    // Update tables
+    for (let group = 1; group <= 4; group++) {
+        let table = document.getElementById(`group${group}-table`);
+        let rows = table.rows;
+        for (let i = 1; i < rows.length; i++) {
+            let idx = i - 1;
+            rows[i].cells[2].innerText = stats[group][idx].m;
+            rows[i].cells[3].innerText = stats[group][idx].w;
+            rows[i].cells[4].innerText = stats[group][idx].d;
+            rows[i].cells[5].innerText = stats[group][idx].l;
+            rows[i].cells[6].innerText = `${stats[group][idx].gf}:${stats[group][idx].ga}`;
+            rows[i].cells[7].innerText = stats[group][idx].pts;
+        }
+    }
+
+    // Determine advancing teams (top 2 of each group)
+    advancingTeams = [];
+    for (let group = 1; group <= 4; group++) {
+        let groupArray = [];
+        for (let i = 0; i < 4; i++) {
+            groupArray.push({
+                name: teams[group][i],
+                pts: stats[group][i].pts,
+                gd: stats[group][i].gf - stats[group][i].ga,
+                gf: stats[group][i].gf
+            });
+        }
+        // sort by points, then goal diff, then goals for
+        groupArray.sort((a, b) => {
+            if (b.pts !== a.pts) return b.pts - a.pts;
+            if (b.gd !== a.gd) return b.gd - a.gd;
+            return b.gf - a.gf;
+        });
+        advancingTeams.push({ group: group, position: 1, name: groupArray[0].name });
+        advancingTeams.push({ group: group, position: 2, name: groupArray[1].name });
+    }
+
+    // Show advancing teams
+    let advDiv = document.getElementById('advancing-teams');
+    let html = "<h2>Teams Qualified for Knockout Stage</h2>";
+    for (let group = 1; group <= 4; group++) {
+        html += `<p>Group ${group}:<br>
+            1st: ${advancingTeams.find(t => t.group === group && t.position === 1).name}<br>
+            2nd: ${advancingTeams.find(t => t.group === group && t.position === 2).name}
+        </p>`;
+    }
+    advDiv.innerHTML = html;
 }
 </script>
 
