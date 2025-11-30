@@ -55,59 +55,57 @@ const groups = {
 };
 
 // ----------------- HELPERS -----------------
-function calculatePoints(team) { return team.w*3 + team.d; }
+function calculatePoints(team){ return team.w*3 + team.d; }
 
-function displayGroups() {
+// Display Groups
+function displayGroups(){
     const container = document.getElementById('tables');
     container.innerHTML = '';
-    for (let g in groups) {
-        let html = `<div class="group-title">Group ${g}</div>`;
-        html += `<table><tr>
-            <th>#</th><th>Team</th><th>M</th><th>W</th><th>D</th><th>L</th><th>Goals</th><th>Points</th>
-        </tr>`;
-
+    for(let g in groups){
+        let html = `<div class="group-title">Group ${g}</div><table>
+        <tr><th>#</th><th>Team</th><th>M</th><th>W</th><th>D</th><th>L</th><th>Goals</th><th>Points</th></tr>`;
         let sorted = [...groups[g]].sort((a,b)=>{
-            let ptsA = calculatePoints(a), ptsB = calculatePoints(b);
+            let ptsB = calculatePoints(b), ptsA = calculatePoints(a);
             if(ptsB!==ptsA) return ptsB-ptsA;
-            let gdA = a.gf - a.ga, gdB = b.gf - b.ga;
+            let gdB = b.gf-b.ga, gdA = a.gf-a.ga;
             if(gdB!==gdA) return gdB-gdA;
             return b.gf - a.gf;
         });
-
-        sorted.forEach((team,i)=>{
+        sorted.forEach((t,i)=>{
             html += `<tr>
                 <td>${i+1}</td>
-                <td class="team">${team.name}</td>
-                <td>${team.m}</td>
-                <td>${team.w}</td>
-                <td>${team.d}</td>
-                <td>${team.l}</td>
-                <td>${team.gf}:${team.ga}</td>
-                <td>${calculatePoints(team)}</td>
+                <td class="team">${t.name}</td>
+                <td>${t.m}</td>
+                <td>${t.w}</td>
+                <td>${t.d}</td>
+                <td>${t.l}</td>
+                <td>${t.gf}:${t.ga}</td>
+                <td>${calculatePoints(t)}</td>
             </tr>`;
         });
-
         html += `</table>`;
         container.innerHTML += html;
     }
 }
 
-function getAdvancingTeams() {
-    let advancing = [];
+// Get advancing teams
+function getAdvancingTeams(){
+    let advancing=[];
     for(let g in groups){
         let sorted = [...groups[g]].sort((a,b)=>{
-            let ptsA = calculatePoints(a), ptsB = calculatePoints(b);
+            let ptsB = calculatePoints(b), ptsA = calculatePoints(a);
             if(ptsB!==ptsA) return ptsB-ptsA;
-            let gdA = a.gf - a.ga, gdB = b.gf - b.ga;
+            let gdB = b.gf-b.ga, gdA = a.gf-a.ga;
             if(gdB!==gdA) return gdB-gdA;
             return b.gf - a.gf;
         });
-        advancing.push({group: g, first: sorted[0].name, second: sorted[1].name});
+        advancing.push({group:g, first:sorted[0].name, second:sorted[1].name});
     }
     return advancing;
 }
 
-function displayAdvancing() {
+// Display advancing teams
+function displayAdvancing(){
     const advDiv = document.getElementById('advancing-teams');
     const advancing = getAdvancingTeams();
     advDiv.innerHTML = '<h2>Teams Qualified for Knockout Stage</h2>';
@@ -116,7 +114,8 @@ function displayAdvancing() {
     });
 }
 
-function displayKnockout() {
+// Build and display knockout stages
+function displayKnockout(){
     const koDiv = document.getElementById('knockout');
     const adv = getAdvancingTeams();
     koDiv.innerHTML = '<h2>Quarter-finals</h2>';
@@ -131,6 +130,26 @@ function displayKnockout() {
     QFs.forEach((q,i)=>{
         koDiv.innerHTML += `<div class="matchup">QF${i+1}: ${q.t1} vs ${q.t2}</div>`;
     });
+
+    // Semi-finals
+    const SFs = [
+        { t1: QFs[0].t1, t2: QFs[1].t1 },
+        { t1: QFs[2].t1, t2: QFs[3].t1 }
+    ];
+    koDiv.innerHTML += '<h2>Semi-finals</h2>';
+    SFs.forEach((s,i)=>{
+        koDiv.innerHTML += `<div class="matchup">SF${i+1}: ${s.t1} vs ${s.t2}</div>`;
+    });
+
+    // Final
+    const finalTeams = { t1: SFs[0].t1, t2: SFs[1].t1 };
+    koDiv.innerHTML += '<h2>Final</h2>';
+    koDiv.innerHTML += `<div class="matchup">Final: ${finalTeams.t1} vs ${finalTeams.t2}</div>`;
+
+    // Third place
+    const thirdTeams = { t1: SFs[0].t2, t2: SFs[1].t2 };
+    koDiv.innerHTML += '<h2>Third Place</h2>';
+    koDiv.innerHTML += `<div class="matchup">3rd Place: ${thirdTeams.t1} vs ${thirdTeams.t2}</div>`;
 }
 
 // ----------------- INIT -----------------
@@ -138,6 +157,5 @@ displayGroups();
 displayAdvancing();
 displayKnockout();
 </script>
-
 </body>
 </html>
