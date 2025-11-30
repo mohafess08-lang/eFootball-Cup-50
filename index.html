@@ -33,77 +33,72 @@ th { color: yellow; }
 <!-- جدول المباريات لكل مجموعة -->
 <div class="matches-table" id="matches-table">
     <h2>Group Matches Progress</h2>
-    <div style="display:flex; justify-content:space-between; max-width:1200px; margin:auto;">
+    <div style="display:flex; flex-wrap:wrap; justify-content:space-between; max-width:1200px; margin:auto;">
         <!-- Group A -->
-        <div>
+        <div style="flex:1; min-width:280px; margin-bottom:20px;">
             <h3>Group A</h3>
             <ul id="groupA-matches">
-                <li><input type="checkbox" class="match-check" checked disabled>
-                    <span class="white">Amine (Napoli)</span> 
-                    <span class="yellow"> VS </span>
-                    <span class="white">Fouad (Netherlands NT)</span>
-                </li>
-                <li><input type="checkbox" class="match-check" disabled>
-                    <span class="white">Amine (Napoli)</span> 
-                    <span class="yellow"> VS </span>
-                    <span class="white">Ayoub (Arsenal)</span>
-                </li>
-                <li><input type="checkbox" class="match-check" disabled>
-                    <span class="white">Amine (Napoli)</span> 
-                    <span class="yellow"> VS </span>
-                    <span class="white">Samir (PSG)</span>
-                </li>
+                <li><input type="checkbox" class="match-check" disabled> <span class="white">Amine (Napoli)</span> <span class="yellow"> VS </span> <span class="white">Fouad (Netherlands NT)</span></li>
+                <li><input type="checkbox" class="match-check" disabled> <span class="white">Amine (Napoli)</span> <span class="yellow"> VS </span> <span class="white">Ayoub (Arsenal)</span></li>
+                <li><input type="checkbox" class="match-check" disabled> <span class="white">Amine (Napoli)</span> <span class="yellow"> VS </span> <span class="white">Samir (PSG)</span></li>
+                <li><input type="checkbox" class="match-check" disabled> <span class="white">Amine (Napoli)</span> <span class="yellow"> VS </span> <span class="white">Hamza (Borussia Dortmund)</span></li>
+                <li><input type="checkbox" class="match-check" disabled> <span class="white">Fouad (Netherlands NT)</span> <span class="yellow"> VS </span> <span class="white">Ayoub (Arsenal)</span></li>
+                <li><input type="checkbox" class="match-check" disabled> <span class="white">Fouad (Netherlands NT)</span> <span class="yellow"> VS </span> <span class="white">Samir (PSG)</span></li>
+                <li><input type="checkbox" class="match-check" disabled> <span class="white">Fouad (Netherlands NT)</span> <span class="yellow"> VS </span> <span class="white">Hamza (Borussia Dortmund)</span></li>
+                <li><input type="checkbox" class="match-check" disabled> <span class="white">Ayoub (Arsenal)</span> <span class="yellow"> VS </span> <span class="white">Samir (PSG)</span></li>
+                <li><input type="checkbox" class="match-check" disabled> <span class="white">Ayoub (Arsenal)</span> <span class="yellow"> VS </span> <span class="white">Hamza (Borussia Dortmund)</span></li>
+                <li><input type="checkbox" class="match-check" disabled> <span class="white">Samir (PSG)</span> <span class="yellow"> VS </span> <span class="white">Hamza (Borussia Dortmund)</span></li>
             </ul>
         </div>
 
         <!-- Group B -->
-        <div>
+        <div style="flex:1; min-width:280px; margin-bottom:20px;">
             <h3>Group B</h3>
             <ul id="groupB-matches">
-                <li><input type="checkbox" class="match-check" disabled>
-                    <span class="white">Oussama (Malaga)</span> 
-                    <span class="yellow"> VS </span>
-                    <span class="white">Soufiane (Barcelona)</span>
-                </li>
-                <li><input type="checkbox" class="match-check" disabled>
-                    <span class="white">Oussama (Malaga)</span> 
-                    <span class="yellow"> VS </span>
-                    <span class="white">Houssam (Algeria NT)</span>
-                </li>
+                <li><input type="checkbox" class="match-check" disabled> <span class="white">Oussama (Malaga)</span> <span class="yellow"> VS </span> <span class="white">Soufiane (Barcelona)</span></li>
+                <li><input type="checkbox" class="match-check" disabled> <span class="white">Oussama (Malaga)</span> <span class="yellow"> VS </span> <span class="white">Houssam (Algeria NT)</span></li>
+                <li><input type="checkbox" class="match-check" disabled> <span class="white">Oussama (Malaga)</span> <span class="yellow"> VS </span> <span class="white">Mohamed (Manchester United)</span></li>
+                <li><input type="checkbox" class="match-check" disabled> <span class="white">Oussama (Malaga)</span> <span class="yellow"> VS </span> <span class="white">Oussama S. (Manchester City)</span></li>
+                <li><input type="checkbox" class="match-check" disabled> <span class="white">Soufiane (Barcelona)</span> <span class="yellow"> VS </span> <span class="white">Houssam (Algeria NT)</span></li>
+                <li><input type="checkbox" class="match-check" disabled> <span class="white">Soufiane (Barcelona)</span> <span class="yellow"> VS </span> <span class="white">Mohamed (Manchester United)</span></li>
+                <li><input type="checkbox" class="match-check" disabled> <span class="white">Soufiane (Barcelona)</span> <span class="yellow"> VS </span> <span class="white">Oussama S. (Manchester City)</span></li>
+                <li><input type="checkbox" class="match-check" disabled> <span class="white">Houssam (Algeria NT)</span> <span class="yellow"> VS </span> <span class="white">Mohamed (Manchester United)</span></li>
+                <li><input type="checkbox" class="match-check" disabled> <span class="white">Houssam (Algeria NT)</span> <span class="yellow"> VS </span> <span class="white">Oussama S. (Manchester City)</span></li>
+                <li><input type="checkbox" class="match-check" disabled> <span class="white">Mohamed (Manchester United)</span> <span class="yellow"> VS </span> <span class="white">Oussama S. (Manchester City)</span></li>
             </ul>
         </div>
 
         <!-- Group C -->
-        <div>
+        <div style="flex:1; min-width:280px; margin-bottom:20px;">
             <h3>Group C</h3>
             <ul id="groupC-matches">
-                <li><input type="checkbox" class="match-check" disabled>
-                    <span class="white">Moad (São Paulo)</span> 
-                    <span class="yellow"> VS </span>
-                    <span class="white">Elhady (AC Milan)</span>
-                </li>
-                <li><input type="checkbox" class="match-check" disabled>
-                    <span class="white">Moad (São Paulo)</span> 
-                    <span class="yellow"> VS </span>
-                    <span class="white">BenTaleb (Liverpool)</span>
-                </li>
+                <li><input type="checkbox" class="match-check" disabled> <span class="white">Moad (São Paulo)</span> <span class="yellow"> VS </span> <span class="white">Elhady (AC Milan)</span></li>
+                <li><input type="checkbox" class="match-check" disabled> <span class="white">Moad (São Paulo)</span> <span class="yellow"> VS </span> <span class="white">BenTaleb (Liverpool)</span></li>
+                <li><input type="checkbox" class="match-check" disabled> <span class="white">Moad (São Paulo)</span> <span class="yellow"> VS </span> <span class="white">Dovix (Senegal NT)</span></li>
+                <li><input type="checkbox" class="match-check" disabled> <span class="white">Moad (São Paulo)</span> <span class="yellow"> VS </span> <span class="white">Mehdi (Morocco NT)</span></li>
+                <li><input type="checkbox" class="match-check" disabled> <span class="white">Elhady (AC Milan)</span> <span class="yellow"> VS </span> <span class="white">BenTaleb (Liverpool)</span></li>
+                <li><input type="checkbox" class="match-check" disabled> <span class="white">Elhady (AC Milan)</span> <span class="yellow"> VS </span> <span class="white">Dovix (Senegal NT)</span></li>
+                <li><input type="checkbox" class="match-check" disabled> <span class="white">Elhady (AC Milan)</span> <span class="yellow"> VS </span> <span class="white">Mehdi (Morocco NT)</span></li>
+                <li><input type="checkbox" class="match-check" disabled> <span class="white">BenTaleb (Liverpool)</span> <span class="yellow"> VS </span> <span class="white">Dovix (Senegal NT)</span></li>
+                <li><input type="checkbox" class="match-check" disabled> <span class="white">BenTaleb (Liverpool)</span> <span class="yellow"> VS </span> <span class="white">Mehdi (Morocco NT)</span></li>
+                <li><input type="checkbox" class="match-check" disabled> <span class="white">Dovix (Senegal NT)</span> <span class="yellow"> VS </span> <span class="white">Mehdi (Morocco NT)</span></li>
             </ul>
         </div>
 
         <!-- Group D -->
-        <div>
+        <div style="flex:1; min-width:280px; margin-bottom:20px;">
             <h3>Group D</h3>
             <ul id="groupD-matches">
-                <li><input type="checkbox" class="match-check" disabled>
-                    <span class="white">Khalid (Chelsea)</span> 
-                    <span class="yellow"> VS </span>
-                    <span class="white">Touati (Japan NT)</span>
-                </li>
-                <li><input type="checkbox" class="match-check" disabled>
-                    <span class="white">Khalid (Chelsea)</span> 
-                    <span class="yellow"> VS </span>
-                    <span class="white">Karim (Bayern Munich)</span>
-                </li>
+                <li><input type="checkbox" class="match-check" disabled> <span class="white">Khalid (Chelsea)</span> <span class="yellow"> VS </span> <span class="white">Touati (Japan NT)</span></li>
+                <li><input type="checkbox" class="match-check" disabled> <span class="white">Khalid (Chelsea)</span> <span class="yellow"> VS </span> <span class="white">Karim (Bayern Munich)</span></li>
+                <li><input type="checkbox" class="match-check" disabled> <span class="white">Khalid (Chelsea)</span> <span class="yellow"> VS </span> <span class="white">Said (Real Madrid)</span></li>
+                <li><input type="checkbox" class="match-check" disabled> <span class="white">Khalid (Chelsea)</span> <span class="yellow"> VS </span> <span class="white">Aizen (Inter Milan)</span></li>
+                <li><input type="checkbox" class="match-check" disabled> <span class="white">Touati (Japan NT)</span> <span class="yellow"> VS </span> <span class="white">Karim (Bayern Munich)</span></li>
+                <li><input type="checkbox" class="match-check" disabled> <span class="white">Touati (Japan NT)</span> <span class="yellow"> VS </span> <span class="white">Said (Real Madrid)</span></li>
+                <li><input type="checkbox" class="match-check" disabled> <span class="white">Touati (Japan NT)</span> <span class="yellow"> VS </span> <span class="white">Aizen (Inter Milan)</span></li>
+                <li><input type="checkbox" class="match-check" disabled> <span class="white">Karim (Bayern Munich)</span> <span class="yellow"> VS </span> <span class="white">Said (Real Madrid)</span></li>
+                <li><input type="checkbox" class="match-check" disabled> <span class="white">Karim (Bayern Munich)</span> <span class="yellow"> VS </span> <span class="white">Aizen (Inter Milan)</span></li>
+                <li><input type="checkbox" class="match-check" disabled> <span class="white">Said (Real Madrid)</span> <span class="yellow"> VS </span> <span class="white">Aizen (Inter Milan)</span></li>
             </ul>
         </div>
     </div>
@@ -225,7 +220,7 @@ function updateAdvancingTable(){
     const advTeams = getAdvancingTeams();
     for(let i=0;i<advTeams.length;i++){
         const row = advTable.rows[i+1];
-        let allMatchesPlayed = groups[advTeams[i].group].every(t=>t.m >= 4);
+        const allMatchesPlayed = groups[advTeams[i].group].every(t=>t.m >= 4);
         if(allMatchesPlayed){
             row.cells[1].innerText = advTeams[i].first;
             row.cells[2].innerText = advTeams[i].second;
@@ -240,3 +235,4 @@ updateAdvancingTable();
 
 </body>
 </html>
+
