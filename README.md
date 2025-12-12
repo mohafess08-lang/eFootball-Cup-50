@@ -1,88 +1,312 @@
-# eFootball-Cup-50<!DOCTYPE html>
-<html lang="ar">
+<!DOCTYPE html>
+<html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>نظام الفرق والنقاط</title>
-  <style>
-    body { font-family: Arial, sans-serif; }
-    h2 { margin-top: 20px; }
-    ul { list-style-type: none; padding: 0; }
-    li { margin: 5px 0; }
-    button { margin-left: 10px; }
-  </style>
+<meta charset="UTF-8">
+<title>eFootball Cup</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+:root{
+  --bg:#0b0b0b;
+  --gold:#d4af37;
+  --green:#1fd66b;
+  --white:#ffffff;
+  --card:#151515;
+}
+
+*{box-sizing:border-box}
+body{
+  margin:0;
+  background:var(--bg);
+  color:var(--white);
+  font-family:Arial, Helvetica, sans-serif;
+}
+
+header{
+  display:flex;
+  align-items:center;
+  padding:15px 20px;
+  border-bottom:1px solid #222;
+}
+
+header img{
+  height:55px;
+  margin-right:15px;
+}
+
+header h1{
+  color:var(--gold);
+  margin:0;
+  font-size:22px;
+}
+
+nav{
+  display:flex;
+  justify-content:center;
+  gap:25px;
+  margin:20px 0;
+}
+
+nav button{
+  background:none;
+  border:none;
+  color:#aaa;
+  font-size:16px;
+  cursor:pointer;
+}
+
+nav button.active{
+  color:var(--gold);
+  border-bottom:2px solid var(--gold);
+}
+
+.page{
+  display:none;
+  max-width:1100px;
+  margin:auto;
+  padding:0 15px 60px;
+}
+
+.page.active{display:block}
+
+h2{
+  color:var(--gold);
+  margin:25px 0 15px;
+}
+
+/* ---------- TABLE ---------- */
+table{
+  width:100%;
+  border-collapse:collapse;
+  background:var(--card);
+}
+
+th,td{
+  padding:10px;
+  text-align:center;
+  border-bottom:1px solid #222;
+}
+
+th{
+  color:var(--gold);
+  font-size:14px;
+}
+
+td.team{
+  text-align:left;
+  color:white;
+}
+
+tr.qualified{
+  position:relative;
+}
+
+tr.qualified::before{
+  content:"";
+  position:absolute;
+  left:0;
+  top:0;
+  bottom:0;
+  width:5px;
+  background:var(--green);
+}
+
+/* ---------- GROUPS ---------- */
+.group{
+  margin-bottom:40px;
+}
+
+/* ---------- KNOCKOUT ---------- */
+.bracket{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:15px;
+}
+
+.match{
+  background:var(--card);
+  padding:10px;
+  border-radius:6px;
+  min-height:60px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  color:#777;
+}
+
+/* ---------- ADMIN ---------- */
+#adminBtn{
+  position:fixed;
+  bottom:15px;
+  right:15px;
+  background:var(--gold);
+  color:black;
+  border:none;
+  padding:10px 15px;
+  border-radius:6px;
+  cursor:pointer;
+}
+
+#admin{
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.9);
+  display:none;
+  align-items:center;
+  justify-content:center;
+}
+
+#admin .box{
+  background:#111;
+  padding:20px;
+  width:350px;
+  border-radius:8px;
+}
+
+input,select{
+  width:100%;
+  margin-bottom:10px;
+  padding:8px;
+  background:#222;
+  border:1px solid #333;
+  color:white;
+}
+
+</style>
 </head>
 <body>
 
-<h1>نظام الفرق والنقاط</h1>
-<div id="groupsContainer"></div>
+<header>
+  <img src="logo.png" alt="eFootball Cup">
+  <h1>eFootball Cup</h1>
+</header>
+
+<nav>
+  <button class="active" onclick="showPage('matches')">Matches</button>
+  <button onclick="showPage('groups')">Teams</button>
+  <button onclick="showPage('stats')">Stats</button>
+</nav>
+
+<!-- MATCHES -->
+<div id="matches" class="page active">
+  <h2>Matches</h2>
+  <p style="color:#777">Matches will appear here after being added from Admin Panel.</p>
+</div>
+
+<!-- GROUPS -->
+<div id="groups" class="page">
+  <h2>Group Stage</h2>
+  <div id="groupsContainer"></div>
+
+  <h2>Knockout Stage</h2>
+  <div id="knockout" class="bracket"></div>
+</div>
+
+<!-- STATS -->
+<div id="stats" class="page">
+  <h2>Best Defense</h2>
+  <div id="defense"></div>
+
+  <h2>Best Attack</h2>
+  <div id="attack"></div>
+</div>
+
+<!-- ADMIN -->
+<button id="adminBtn" onclick="openAdmin()">Admin Panel</button>
+
+<div id="admin">
+  <div class="box">
+    <h2>Admin</h2>
+    <input id="teamName" placeholder="Team name">
+    <select id="groupSelect">
+      <option>A</option><option>B</option><option>C</option><option>D</option>
+      <option>E</option><option>F</option><option>G</option><option>H</option>
+    </select>
+    <button onclick="addTeam()">Add Team</button>
+    <button onclick="closeAdmin()">Close</button>
+  </div>
+</div>
 
 <script>
-let teams = JSON.parse(localStorage.getItem('teams')) || [
-  // المجموعة 1
-  { name: "Elhady – AC Milan", points: 0, group: "المجموعة 1" },
-  { name: "Hamza – Borussia Dortmund", points: 0, group: "المجموعة 1" },
-  { name: "Fouad – Hollande", points: 0, group: "المجموعة 1" },
-  { name: "Touati – Japan", points: 0, group: "المجموعة 1" },
-
-  // المجموعة 2
-  { name: "Soufiane – Barcelona", points: 0, group: "المجموعة 2" },
-  { name: "Oussama – Manchester City", points: 0, group: "المجموعة 2" },
-  { name: "Mehdi – Morocco", points: 0, group: "المجموعة 2" },
-  { name: "Ben Taleb – Liverpool", points: 0, group: "المجموعة 2" },
-
-  // المجموعة 3
-  { name: "Karim – Bayern Munich", points: 0, group: "المجموعة 3" },
-  { name: "Ayoub – Arsenal", points: 0, group: "المجموعة 3" },
-  { name: "Houssam – Algeria", points: 0, group: "المجموعة 3" },
-  { name: "Samir – Paris Saint-Germain", points: 0, group: "المجموعة 3" },
-
-  // المجموعة 4
-  { name: "Aizen – Inter Milan", points: 0, group: "المجموعة 4" },
-  { name: "Said – Real Madrid", points: 0, group: "المجموعة 4" },
-  { name: "Mohmed – Manchester United", points: 0, group: "المجموعة 4" },
-  { name: "Dovix – Algeria", points: 0, group: "المجموعة 4" }
-];
-
-function saveTeams() {
-  localStorage.setItem('teams', JSON.stringify(teams));
+const pages=document.querySelectorAll('.page');
+function showPage(id){
+  pages.forEach(p=>p.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  document.querySelectorAll('nav button').forEach(b=>b.classList.remove('active'));
+  event.target.classList.add('active');
 }
 
-function renderTeams() {
-  const container = document.getElementById('groupsContainer');
-  container.innerHTML = '';
+/* ---------- DATA ---------- */
+let groups = JSON.parse(localStorage.getItem('groups')) || {
+  A:[],B:[],C:[],D:[],E:[],F:[],G:[],H:[]
+};
 
-  // الحصول على كل المجموعات الفريدة
-  const groups = [...new Set(teams.map(t => t.group))];
+function save(){
+  localStorage.setItem('groups',JSON.stringify(groups));
+  renderGroups();
+}
 
-  groups.forEach(group => {
-    const groupHeader = document.createElement('h2');
-    groupHeader.textContent = group;
-    container.appendChild(groupHeader);
+/* ---------- GROUPS ---------- */
+function renderGroups(){
+  const container=document.getElementById('groupsContainer');
+  container.innerHTML='';
+  for(let g in groups){
+    if(groups[g].length===0) continue;
 
-    const ul = document.createElement('ul');
-
-    teams.filter(t => t.group === group).forEach(team => {
-      const li = document.createElement('li');
-      li.textContent = `${team.name} - ${team.points} نقاط`;
-
-      const button = document.createElement('button');
-      button.textContent = 'فاز';
-      button.onclick = () => {
-        team.points += 3;
-        renderTeams();
-        saveTeams();
-      };
-
-      li.appendChild(button);
-      ul.appendChild(li);
+    let sorted=[...groups[g]].sort((a,b)=>{
+      if(b.pts!==a.pts) return b.pts-a.pts;
+      if(b.gd!==a.gd) return b.gd-a.gd;
+      return b.gf-a.gf;
     });
 
-    container.appendChild(ul);
-  });
+    let html=`<div class="group"><h3 style="color:var(--gold)">Group ${g}</h3>
+    <table>
+    <tr>
+      <th>#</th><th>Team</th><th>P</th><th>W</th><th>D</th><th>L</th>
+      <th>GF</th><th>GA</th><th>GD</th><th>Pts</th>
+    </tr>`;
+
+    sorted.forEach((t,i)=>{
+      html+=`
+      <tr class="${i<2?'qualified':''}">
+        <td>${i+1}</td>
+        <td class="team">${t.name}</td>
+        <td>${t.p}</td>
+        <td>${t.w}</td>
+        <td>${t.d}</td>
+        <td>${t.l}</td>
+        <td>${t.gf}</td>
+        <td>${t.ga}</td>
+        <td>${t.gd}</td>
+        <td>${t.pts}</td>
+      </tr>`;
+    });
+
+    html+='</table></div>';
+    container.innerHTML+=html;
+  }
 }
+renderGroups();
 
-renderTeams();
+/* ---------- ADMIN ---------- */
+function openAdmin(){document.getElementById('admin').style.display='flex'}
+function closeAdmin(){document.getElementById('admin').style.display='none'}
+
+function addTeam(){
+  const name=document.getElementById('teamName').value.trim();
+  const g=document.getElementById('groupSelect').value;
+  if(!name) return;
+
+  groups[g].push({
+    name,
+    p:0,w:0,d:0,l:0,
+    gf:0,ga:0,
+    gd:0,pts:0
+  });
+
+  document.getElementById('teamName').value='';
+  save();
+}
 </script>
-
 </body>
 </html>
