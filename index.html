@@ -1,265 +1,602 @@
-<!DOCTYPE html>
-<html lang="en">
+<!doctype html>
+<html lang="en" dir="ltr">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>eFootball Cup</title>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>eFootball Cup — Demo</title>
 <style>
-body { background: #111; color: white; font-family: Arial, sans-serif; text-align: center; margin: 0; padding: 0; }
-h1 { margin-top: 20px; color: gold; }
-.table-container { width: 90%; max-width: 1200px; margin: auto; margin-top: 20px; }
-.group-title { color: gold; font-size: 22px; margin: 20px 0 5px 0; text-align: left; }
-table { width: 100%; border-collapse: collapse; margin-bottom: 30px; }
-th, td { padding: 10px; border-bottom: 2px solid #333; }
-th { color: yellow; }
-.team { text-align: left; }
-.advancing-teams, .knockout, .matches-table { margin-top: 30px; color: gold; font-size: 18px; text-align:left; max-width:1200px; margin:auto; }
-.matchup { background:#222; padding:10px; border-radius:5px; margin-bottom:5px; }
-.matches-table div { flex:1; margin:0 5px; }
-.matches-table ul { list-style:none; padding:0; }
-.matches-table li { margin:10px 0; }
-.match-check { transform:scale(1.2); margin-right:5px; }
-.white { color:white; }
-.yellow { color:yellow; }
-.editable { color:white; outline:none; border:none; background:none; width:100%; }
+  :root{
+    --bg:#071022; --card:#0f1724; --muted:#9aa4b2; --accent:#18c2b4;
+    --glass: rgba(255,255,255,0.02);
+  }
+  *{box-sizing:border-box;font-family:Inter, "Segoe UI", Roboto, Arial, sans-serif}
+  body{margin:0;background:linear-gradient(180deg,#041021,var(--bg)); color:#e7eef6; min-height:100vh}
+  .wrap{max-width:1100px;margin:18px auto;padding:18px}
+  header{display:flex;gap:12px;align-items:center}
+  .brand{width:64px;height:64px;border-radius:12px;background:linear-gradient(135deg,var(--accent),#6d28d9);display:flex;align-items:center;justify-content:center;font-weight:700}
+  h1{margin:0;font-size:20px}
+  .tabs{display:flex;gap:12px;margin-top:12px}
+  .tab{padding:8px 14px;border-radius:999px;background:transparent;color:var(--muted);cursor:pointer}
+  .tab.active{background:linear-gradient(90deg,var(--accent),#34d399);color:#042027;font-weight:700}
+
+  .card{background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));padding:14px;border-radius:12px;margin-top:14px}
+  .muted{color:var(--muted);font-size:13px}
+  .matches-list{display:flex;flex-direction:column;gap:10px;margin-top:12px}
+  .match-row{display:flex;align-items:center;justify-content:space-between;padding:12px;border-radius:10px;background:rgba(255,255,255,0.02)}
+  .team{display:flex;align-items:center;gap:10px}
+  .logo{width:42px;height:42px;border-radius:8px;background:#223;display:flex;align-items:center;justify-content:center;font-weight:700;color:#fff}
+  .date{background:rgba(255,255,255,0.03);padding:6px 10px;border-radius:8px;color:var(--muted)}
+
+  table{width:100%;border-collapse:collapse}
+  th,td{padding:8px;text-align:left;border-bottom:1px solid rgba(255,255,255,0.02)}
+  th{color:var(--muted);font-size:13px}
+
+  .admin-btn{position:fixed;right:22px;bottom:22px;background:linear-gradient(90deg,var(--accent),#06b6d4);color:#042027;padding:12px 16px;border-radius:12px;font-weight:700;cursor:pointer;box-shadow:0 10px 22px rgba(6,182,212,0.12)}
+  .modal-bg{position:fixed;inset:0;background:rgba(0,0,0,0.6);display:none;align-items:center;justify-content:center;padding:18px}
+  .modal{width:100%;max-width:1100px;background:var(--card);border-radius:12px;padding:14px;display:flex;gap:12px;color:#e6eef6}
+  .admin-col{flex:1;min-width:260px;max-height:76vh;overflow:auto}
+  .field{display:flex;gap:8px;align-items:center;margin-bottom:10px}
+  .field label{min-width:120px;color:var(--muted)}
+  input[type="text"], input[type="date"], select, input[type="number"]{flex:1;padding:8px;border-radius:8px;border:1px solid rgba(255,255,255,0.03);background:transparent;color:inherit}
+  button.primary{background:var(--accent);border:none;color:#042027;padding:8px 10px;border-radius:8px;cursor:pointer}
+  button.ghost{background:transparent;border:1px solid rgba(255,255,255,0.04);color:var(--muted);padding:8px;border-radius:8px;cursor:pointer}
+  .logo-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:8px;padding:6px;background:var(--glass);border-radius:8px}
+  .logo-item{display:flex;flex-direction:column;align-items:center;gap:6px;padding:6px;border-radius:8px;cursor:pointer}
+  .logo-item .logo-preview{width:56px;height:56px;border-radius:8px;background-size:cover;background-position:center}
+  .small{font-size:13px;color:var(--muted)}
+  .groups-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:12px}
+  .group-card{background:rgba(255,255,255,0.01);padding:10px;border-radius:10px}
+  .slot{display:flex;align-items:center;gap:8px;padding:6px;border-radius:8px;background:rgba(255,255,255,0.02);margin-bottom:6px}
+
+  @media(max-width:980px){
+    .logo-grid{grid-template-columns:repeat(4,1fr)}
+    .groups-grid{grid-template-columns:repeat(2,1fr)}
+    .modal{flex-direction:column}
+  }
 </style>
 </head>
 <body>
-<h1>eFootball Cup</h1>
-
-<!-- جدول المجموعات -->
-<div class="table-container" id="tables"></div>
-
-<!-- جدول المباريات لكل مجموعة -->
-<div class="matches-table" id="matches-table">
-<h2>Group Matches Progress</h2>
-<div style="display:flex; flex-wrap:wrap; justify-content:space-between; max-width:1200px; margin:auto;">
-
-<!-- Group A -->
-<div style="flex:1; min-width:280px; margin-bottom:20px;">
-<h3>Group A</h3>
-<ul id="groupA-matches">
-<li><input type="checkbox" class="match-check" disabled checked> <span class="white">Amine (Napoli)</span> <span class="yellow"> (2:3) </span> <span class="white">Fouad (Netherlands NT)</span></li>
-<li><input type="checkbox" class="match-check" disabled checked> <span class="white">Amine (Napoli)</span> <span class="yellow"> (4:2) </span> <span class="white">Ayoub (Arsenal)</span></li>
-<li><input type="checkbox" class="match-check" disabled checked> <span class="white">Amine (Napoli)</span> <span class="yellow"> (0:6) </span> <span class="white">Samir (PSG)</span></li>
-<li><input type="checkbox" class="match-check" disabled checked> <span class="white">Amine (Napoli)</span> <span class="yellow"> (0:3) </span> <span class="white">Hamza (Borussia Dortmund)</span></li>
-<li><input type="checkbox" class="match-check" disabled checked> <span class="white">Fouad (Netherlands NT)</span> <span class="yellow"> (0:3) </span> <span class="white">Ayoub (Arsenal)</span></li>
-<li><input type="checkbox" class="match-check" disabled checked> <span class="white">Fouad (Netherlands NT)</span> <span class="yellow"> (0:3) </span> <span class="white">Samir (PSG)</span></li>
-<li><input type="checkbox" class="match-check" disabled checked> <span class="white">Fouad (Netherlands NT)</span> <span class="yellow"> (2:2) </span> <span class="white">Hamza (Borussia Dortmund)</span></li>
-<li><input type="checkbox" class="match-check" disabled checked> <span class="white">Ayoub (Arsenal)</span> <span class="yellow"> (1:7) </span> <span class="white">Samir (PSG)</span></li>
-<li><input type="checkbox" class="match-check" disabled checked> <span class="white">Ayoub (Arsenal)</span> <span class="yellow"> (0:4) </span> <span class="white">Hamza (Borussia Dortmund)</span></li>
-<li><input type="checkbox" class="match-check" disabled checked> <span class="white">Samir (PSG)</span> <span class="yellow"> (3:1) </span> <span class="white">Hamza (Borussia Dortmund)</span></li>
-</ul>
-</div>
-
-<!-- Group B -->
-<div style="flex:1; min-width:280px; margin-bottom:20px;">
-<h3>Group B</h3>
-<ul id="groupB-matches">
-<li><input type="checkbox" class="match-check" disabled checked> <span class="white">Oussama (Malaga)</span> <span class="yellow"> (3:3) </span> <span class="white">Soufiane (Barcelona)</span></li>
-<li><input type="checkbox" class="match-check" disabled checked> <span class="white">Oussama (Malaga)</span> <span class="yellow"> (3:2) </span> <span class="white">Houssam (Algeria NT)</span></li>
-<li><input type="checkbox" class="match-check" disabled checked> <span class="white">Oussama (Malaga)</span> <span class="yellow"> (4:4) </span> <span class="white">Mohamed (Manchester United)</span></li>
-<li><input type="checkbox" class="match-check" disabled checked> <span class="white">Oussama (Malaga)</span> <span class="yellow"> (4:0) </span> <span class="white">Oussama S. (Manchester City)</span></li>
-<li><input type="checkbox" class="match-check" disabled checked> <span class="white">Soufiane (Barcelona)</span> <span class="yellow"> (2:0) </span> <span class="white">Houssam (Algeria NT)</span></li>
-<li><input type="checkbox" class="match-check" disabled checked> <span class="white">Soufiane (Barcelona)</span> <span class="yellow"> (2:2) </span> <span class="white">Mohamed (Manchester United)</span></li>
-<li><input type="checkbox" class="match-check" disabled checked> <span class="white">Soufiane (Barcelona)</span> <span class="yellow"> (6:2) </span> <span class="white">Oussama S. (Manchester City)</span></li>
-<li><input type="checkbox" class="match-check" disabled checked> <span class="white">Houssam (Algeria NT)</span> <span class="yellow"> (0:0) </span> <span class="white">Mohamed (Manchester United)</span></li>
-<li><input type="checkbox" class="match-check" disabled checked> <span class="white">Houssam (Algeria NT)</span> <span class="yellow"> (1:1) </span> <span class="white">Oussama S. (Manchester City)</span></li>
-<li><input type="checkbox" class="match-check" disabled checked> <span class="white">Mohamed (Manchester United)</span> <span class="yellow"> (0:3) </span> <span class="white">Oussama S. (Manchester City)</span></li>
-</ul>
-</div>
-
-<!-- Group C -->
-<div style="flex:1; min-width:280px; margin-bottom:20px;">
-<h3>Group C</h3>
-<ul id="groupC-matches">
-<li><input type="checkbox" class="match-check" disabled checked> <span class="white">Moad (São Paulo)</span> <span class="yellow"> (3:3) </span> <span class="white">Elhady (AC Milan)</span></li>
-<li><input type="checkbox" class="match-check" disabled checked> <span class="white">Moad (São Paulo)</span> <span class="yellow"> (0:5) </span> <span class="white">BenTaleb (Liverpool)</span></li>
-<li><input type="checkbox" class="match-check" disabled checked> <span class="white">Moad (São Paulo)</span> <span class="yellow"> (3:0) </span> <span class="white">Dovix (Senegal NT)</span></li>
-<li><input type="checkbox" class="match-check" disabled checked> <span class="white">Moad (São Paulo)</span> <span class="yellow"> (5:0) </span> <span class="white">Mehdi (Morocco NT)</span></li>
-<li><input type="checkbox" class="match-check" disabled checked> <span class="white">Elhady (AC Milan)</span> <span class="yellow"> (2:4) </span> <span class="white">BenTaleb (Liverpool)</span></li>
-<li><input type="checkbox" class="match-check" disabled checked> <span class="white">Elhady (AC Milan)</span> <span class="yellow"> (3:0) </span> <span class="white">Dovix (Senegal NT)</span></li>
-<li><input type="checkbox" class="match-check" disabled checked> <span class="white">Elhady (AC Milan)</span> <span class="yellow"> (6:0) </span> <span class="white">Mehdi (Morocco NT)</span></li>
-<li><input type="checkbox" class="match-check" disabled checked> <span class="white">BenTaleb (Liverpool)</span> <span class="yellow"> (5:0) </span> <span class="white">Dovix (Senegal NT)</span></li>
-<li><input type="checkbox" class="match-check" disabled checked> <span class="white">BenTaleb (Liverpool)</span> <span class="yellow"> (4:2) </span> <span class="white">Mehdi (Morocco NT)</span></li>
-<li><input type="checkbox" class="match-check" disabled checked> <span class="white">Dovix (Senegal NT)</span> <span class="yellow"> (0:3) </span> <span class="white">Mehdi (Morocco NT)</span></li>
-</ul>
-</div>
-
-<!-- Group D -->
-<div style="flex:1; min-width:280px; margin-bottom:20px;">
-<h3>Group D</h3>
-<ul id="groupD-matches">
-<li><input type="checkbox" class="match-check" disabled checked> <span class="white">Khalid (Chelsea)</span> <span class="yellow"> (1:4) </span> <span class="white">Touati (Japan NT)</span></li>
-<li><input type="checkbox" class="match-check" disabled checked> <span class="white">Khalid (Chelsea)</span> <span class="yellow"> (3:2) </span> <span class="white">Karim (Bayern Munich)</span></li>
-<li><input type="checkbox" class="match-check" disabled checked> <span class="white">Khalid (Chelsea)</span> <span class="yellow"> (4:1) </span> <span class="white">Said (Real Madrid)</span></li>
-<li><input type="checkbox" class="match-check" disabled checked> <span class="white">Khalid (Chelsea)</span> <span class="yellow"> (8:0) </span> <span class="white">Aizen (Inter Milan)</span></li>
-<li><input type="checkbox" class="match-check" disabled checked> <span class="white">Touati (Japan NT)</span> <span class="yellow"> (3:0) </span> <span class="white">Karim (Bayern Munich)</span></li>
-<li><input type="checkbox" class="match-check" disabled checked> <span class="white">Touati (Japan NT)</span> <span class="yellow"> (8:0) </span> <span class="white">Said (Real Madrid)</span></li>
-<li><input type="checkbox" class="match-check" disabled checked> <span class="white">Touati (Japan NT)</span> <span class="yellow"> (0:3) </span> <span class="white">Aizen (Inter Milan)</span></li>
-<li><input type="checkbox" class="match-check" disabled checked> <span class="white">Karim (Bayern Munich)</span> <span class="yellow"> (0:3) </span> <span class="white">Said (Real Madrid)</span></li>
-<li><input type="checkbox" class="match-check" disabled checked> <span class="white">Karim (Bayern Munich)</span> <span class="yellow"> (5:1) </span> <span class="white">Aizen (Inter Milan)</span></li>
-<li><input type="checkbox" class="match-check" disabled checked> <span class="white">Said (Real Madrid)</span> <span class="yellow"> (3:2) </span> <span class="white">Aizen (Inter Milan)</span></li>
-</ul>
-</div>
-
-</div>
-</div>
-
-<!-- جدول الفرق المتأهلة للأدوار الإقصائية -->
-<div class="advancing-teams">
-<h2>Teams Qualified for Knockout Stage</h2>
-<table id="advancing-table" style="width:50%; margin:auto; text-align:center; border-collapse: collapse;">
-<tr>
-    <th style="border-bottom:2px solid #333;">Group</th>
-    <th style="border-bottom:2px solid #333;">1st Place</th>
-    <th style="border-bottom:2px solid #333;">2nd Place</th>
-</tr>
-<tr>
-    <td style="border-bottom:1px solid #333;">A</td>
-    <td style="border-bottom:1px solid #333; text-align:left;"><span contenteditable="true" class="editable">--</span></td>
-    <td style="border-bottom:1px solid #333; text-align:right;"><span contenteditable="true" class="editable">--</span></td>
-</tr>
-<tr>
-    <td style="border-bottom:1px solid #333;">B</td>
-    <td style="border-bottom:1px solid #333; text-align:left;"><span contenteditable="true" class="editable">--</span></td>
-    <td style="border-bottom:1px solid #333; text-align:right;"><span contenteditable="true" class="editable">--</span></td>
-</tr>
-<tr>
-    <td style="border-bottom:1px solid #333;">C</td>
-    <td style="border-bottom:1px solid #333; text-align:left;"><span contenteditable="true" class="editable">--</span></td>
-    <td style="border-bottom:1px solid #333; text-align:right;"><span contenteditable="true" class="editable">--</span></td>
-</tr>
-<tr>
-    <td style="border-bottom:1px solid #333;">D</td>
-    <td style="border-bottom:1px solid #333; text-align:left;"><span contenteditable="true" class="editable">--</span></td>
-    <td style="border-bottom:1px solid #333; text-align:right;"><span contenteditable="true" class="editable">--</span></td>
-</tr>
-</table>
-</div>
-
-<!-- الجدول النهائي للأدوار الإقصائية -->
-<div class="knockout" id="knockout">
-<h2>Quarter-finals</h2>
-<div class="matchup">QF1: <span contenteditable="true" class="editable">Samir (PSG)</span> (8:0) <span contenteditable="true" class="editable">Oussama – Malaga</span></div>
-<div class="matchup">
-    QF2: 
-    <span contenteditable="true" class="editable">Soufiane (Barcelona)</span>
-    (<span contenteditable="true" class="editable">5</span> :
-    <span contenteditable="true" class="editable">5</span>)
-    <span contenteditable="true" class="editable">Hamza – Borussia Dortmund</span>
-
-    <!-- Penalties (اكتب هنا فقط لو انتهت المباراة بالتعادل) -->
-    <div class="penalties" style="margin-top: 4px;">
-        Pen:
-        <span contenteditable="true" class="editable">3</span> :
-        <span contenteditable="true" class="editable">1</span>
+<div class="wrap">
+  <header>
+    <div class="brand">EF</div>
+    <div>
+      <h1>eFootball Cup</h1>
+      <div class="muted">Tournament frontend demo — English, LTR. Scroll to bottom and open Admin to manage.</div>
     </div>
+  </header>
+
+  <div class="tabs" id="nav">
+    <div class="tab active" data-view="matches">Matches</div>
+    <div class="tab" data-view="standings">Standings</div>
+    <div class="tab" data-view="knockout">Knockout</div>
+    <div class="tab" data-view="stats">Top Attack / Defense</div>
+    <div class="tab" data-view="scorers">Scorers</div>
+  </div>
+
+  <div id="view" class="card"></div>
 </div>
 
-<div class="matchup">QF3: <span contenteditable="true" class="editable">BenTaleb – Liverpool</span> (3:2) <span contenteditable="true" class="editable">Khalid – Chelsea</span></div>
-<div class="matchup">QF4: <span contenteditable="true" class="editable">Elhady – AC Milan</span> (2:4) <span contenteditable="true" class="editable">Touati (Japan NT)</span></div>
+<div class="admin-btn" id="openAdmin">Open Admin Panel</div>
 
-<h2>Semi-finals</h2>
-<div class="matchup">SF1: <span contenteditable="true" class="editable">Samir (PSG)</span> (2:3) <span contenteditable="true" class="editable">Soufiane (Barcelona)</span></div>
-<div class="matchup">SF2: <span contenteditable="true" class="editable">BenTaleb (Liverpool)</span> (1:4) <span contenteditable="true" class="editable">Touati (Japan NT)</span></div>
+<!-- Admin modal -->
+<div class="modal-bg" id="modalBg">
+  <div class="modal" role="dialog" aria-modal="true">
+    <div class="admin-col">
+      <h3>Admin Login</h3>
+      <div id="authArea">
+        <div class="field"><label>Password</label><input id="adminPass" type="text" placeholder="admin password"/></div>
+        <div style="display:flex;gap:8px"><button id="doLogin" class="primary">Login</button><button id="closeModal" class="ghost">Close</button></div>
+        <div class="small" style="margin-top:8px">Default password: <b>admin123</b></div>
+      </div>
 
-<h2>Third Place Match</h2>
-<div class="matchup">Third Place : <span contenteditable="true" class="editable">Samir (PSG)</span> (0:3) <span contenteditable="true" class="editable">BenTaleb (Liverpool</span> 
+      <div id="adminArea" style="display:none">
+        <div style="display:flex;gap:8px;margin-top:12px">
+          <button id="btnTeams" class="primary">Teams</button>
+          <button id="btnGroups" class="ghost">Groups</button>
+          <button id="btnMatches" class="ghost">Matches</button>
+          <button id="btnParticipants" class="ghost">Participants</button>
+          <button id="btnSettings" class="ghost">Settings</button>
+        </div>
+        <div id="adminContent" style="margin-top:12px"></div>
+      </div>
+    </div>
+
+    <div class="admin-col">
+      <h3>Live Preview</h3>
+      <div id="livePreview" class="card small">No changes yet</div>
+    </div>
+  </div>
 </div>
-    
-<h2>Final</h2>
-<div class="matchup">Final: <span contenteditable="true" class="editable">Touati (Japan NT)</span> (1:0) <span contenteditable="true" class="editable">Soufiane (Barcelona)</span></div> | Winner: <span contenteditable="true" class="editable">Touati (Japan NT)</span></div>
 
 <script>
-// ----------------- DATA -----------------
-const groups = {
-    A: [
-        { name: "Amine – Napoli", m:4,w:1,d:0,l:3,gf:6,ga:11 },
-        { name: "Fouad – Netherlands NT", m:4,w:1,d:1,l:2,gf:5,ga:10 },
-        { name: "Ayoub – Arsenal", m:4,w:1,d:0,l:3,gf:6,ga:15},
-        { name: "Hamza – Borussia Dortmund", m:4,w:2,d:1,l:1,gf:10,ga:5 },
-        { name: "Samir – Paris Saint-Germain", m:4,w:4,d:0,l:0,gf:19,ga:2 }
-    ],
-    B: [
-        { name: "Oussama – Malaga", m:4,w:2,d:2,l:0,gf:14,ga:9 },
-        { name: "Soufiane (Barcelona)", m:4,w:2,d:2,l:0,gf:13,ga:7 },
-        { name: "Houssam – Algeria NT", m:4,w:0,d:2,l:2,gf:3,ga:6 },
-        { name: "Oussama – Manchester City", m:4,w:1,d:1,l:2,gf:6,ga:11 },
-        { name: "Mohamed – Manchester United", m:4,w:0,d:3,l:1,gf:6,ga:9 }
-    ],
-    C: [
-        { name: "Moad – São Paulo", m:4,w:2,d:1,l:1,gf:11,ga:8 },
-        { name: "Elhady – AC Milan", m:4,w:2,d:1,l:1,gf:14,ga:7 },
-        { name: "BenTaleb – Liverpool", m:4,w:4,d:0,l:0,gf:18,ga:4 },
-        { name: "Mehdi – Morocco NT", m:4,w:1,d:0,l:3,gf:5,ga:15 },
-        { name: "Dovix – Senegal NT", m:4,w:0,d:0,l:4,gf:0,ga:14 }
-    ],
-    D: [
-        { name: "Khalid – Chelsea", m:4,w:3,d:0,l:1,gf:16,ga:7 },
-        { name: "Touati (Japan NT)", m:4,w:4,d:0,l:0,gf:18,ga:1 },
-        { name: "Karim – Bayern Munich", m:4,w:1,d:0,l:3,gf:7,ga:10 },
-        { name: "Aizen – Inter Milan", m:4,w:0,d:0,l:4,gf:3,ga:19 },
-        { name: "Said – Real Madrid", m:4,w:2,d:0,l:2,gf:4,ga:14 }
-    ],
-};
+/* ===========================
+  Data model - localStorage keys
+   - teams: preloaded 32 teams (icons initially null)
+   - groups: object mapping A..H -> array of teamIds
+   - matches: list of matches {id,stage,date,home,away,homeGoals,awayGoals}
+   - parts: participants (for scorers)
+   - settings: {adminPass}
+   - knockout: auto-calculated from groups
+===========================*/
+const LS_TEAMS = "efc_teams_v1";
+const LS_GROUPS = "efc_groups_v1";
+const LS_MATCHES = "efc_matches_v1";
+const LS_PARTS = "efc_parts_v1";
+const LS_SETTINGS = "efc_settings_v1";
 
-// ----------------- HELPERS -----------------
-function calculatePoints(team){ return team.w*3 + team.d; }
+// default 32 teams (IDs & display names)
+const DEFAULT_TEAMS = [
+  {id:"inter_milan", name:"Inter Milan"}, {id:"ac_milan", name:"AC Milan"},
+  {id:"as_roma", name:"AS Roma"}, {id:"napoli", name:"Napoli"},
+  {id:"atalanta", name:"Atalanta"}, {id:"lazio", name:"Lazio"},
+  {id:"como", name:"Como"}, {id:"fc_barcelona", name:"FC Barcelona"},
+  {id:"real_madrid", name:"Real Madrid"}, {id:"celtic", name:"Celtic"},
+  {id:"man_city", name:"Manchester City"}, {id:"liverpool", name:"Liverpool"},
+  {id:"arsenal", name:"Arsenal"}, {id:"chelsea", name:"Chelsea"},
+  {id:"man_united", name:"Manchester United"}, {id:"lille", name:"Lille"},
+  {id:"psg", name:"Paris Saint-Germain"}, {id:"ol_lyon", name:"Olympique Lyon"},
+  {id:"as_monaco", name:"AS Monaco"}, {id:"olympique_marseille", name:"Olympique Marseille"},
+  {id:"botafogo", name:"Botafogo"}, {id:"fluminense", name:"Fluminense"},
+  {id:"palmeiras", name:"Palmeiras"}, {id:"sao_paulo", name:"São Paulo"},
+  {id:"santos", name:"Santos"}, {id:"flamengo", name:"Flamengo"},
+  {id:"borussia_dortmund", name:"Borussia Dortmund"}, {id:"bayer_leverkusen", name:"Bayer Leverkusen"},
+  {id:"bayern_munich", name:"Bayern Munich"}, {id:"eintracht_frankfurt", name:"Eintracht Frankfurt"},
+  {id:"fc_porto", name:"FC Porto"}, {id:"sporting_cp", name:"Sporting CP"}
+];
 
-function displayGroups(){
-const container = document.getElementById('tables');
-container.innerHTML = '';
-for(let g in groups){
-let html = `<div class="group-title">Group ${g}</div><table> <tr><th>#</th><th>Team</th><th>M</th><th>W</th><th>D</th><th>L</th><th>Goals</th><th>Points</th></tr>`;
-let sorted = [...groups[g]].sort((a,b)=>{
-let ptsB = calculatePoints(b), ptsA = calculatePoints(a);
-if(ptsB!==ptsA) return ptsB-ptsA;
-let gdB = b.gf-b.ga, gdA = a.gf-a.ga;
-if(gdB!==gdA) return gdB-gdA;
-return b.gf - a.gf;
+// default groups A..H empty arrays
+const GROUP_LETTERS = ["A","B","C","D","E","F","G","H"];
+
+// helpers
+const $ = id => document.getElementById(id);
+
+function save(key, data){ localStorage.setItem(key, JSON.stringify(data)); }
+function load(key, fallback){ const s = localStorage.getItem(key); return s? JSON.parse(s) : fallback; }
+
+// initialize defaults
+if(!localStorage.getItem(LS_TEAMS)){
+  const teams = DEFAULT_TEAMS.map(t=> ({...t, iconUrl:null, stats:{played:0,wins:0,draws:0,losses:0,gf:0,ga:0,points:0}}));
+  save(LS_TEAMS, teams);
+}
+if(!localStorage.getItem(LS_GROUPS)){
+  const g={}; GROUP_LETTERS.forEach(l=> g[l]=[]); save(LS_GROUPS,g);
+}
+if(!localStorage.getItem(LS_MATCHES)) save(LS_MATCHES, []);
+if(!localStorage.getItem(LS_PARTS)) save(LS_PARTS, []);
+if(!localStorage.getItem(LS_SETTINGS)) save(LS_SETTINGS, {adminPass:"admin123"});
+
+/* ===========================
+  UI: Tabs
+===========================*/
+const tabs = document.querySelectorAll('.tab');
+const view = $('view');
+tabs.forEach(t=> t.addEventListener('click', ()=> {
+  tabs.forEach(x=>x.classList.remove('active'));
+  t.classList.add('active');
+  renderView(t.dataset.view);
+}));
+renderView('matches');
+
+function renderView(viewName){
+  if(viewName === 'matches') renderMatches();
+  else if(viewName === 'standings') renderStandings();
+  else if(viewName === 'knockout') renderKnockout();
+  else if(viewName === 'stats') renderStats();
+  else if(viewName === 'scorers') renderScorers();
+}
+
+/* ===========================
+  Matches view
+===========================*/
+function renderMatches(){
+  const matches = load(LS_MATCHES, []);
+  const teams = load(LS_TEAMS, []);
+  let html = `<h2>Matches</h2><div class="muted">Match list — Admin adds matches (date only).</div>`;
+  html += `<div class="matches-list">`;
+  if(matches.length === 0) html += `<div class="muted" style="padding:12px">No matches yet.</div>`;
+  matches.forEach(m=>{
+    const home = teams.find(t=>t.id===m.home);
+    const away = teams.find(t=>t.id===m.away);
+    const homeScore = m.homeGoals == null ? '-' : m.homeGoals;
+    const awayScore = m.awayGoals == null ? '-' : m.awayGoals;
+    html += `<div class="match-row">
+      <div class="team"><div class="logo" style="background-image:url('${home? (home.iconUrl || placeholder(home.id)) : placeholder(null)}');background-size:cover"></div><div>${home?home.name:'-'}</div></div>
+      <div class="date">${m.date || '-'}</div>
+      <div style="display:flex;align-items:center;gap:12px"><div>${homeScore}</div><div>:</div><div>${awayScore}</div></div>
+      <div class="team"><div>${away?away.name:'-'}</div><div class="logo" style="background-image:url('${away? (away.iconUrl || placeholder(away.id)) : placeholder(null)}');background-size:cover"></div></div>
+    </div>`;
+  });
+  html += `</div>`;
+  view.innerHTML = html;
+}
+
+/* ===========================
+  Standings view (8 groups)
+===========================*/
+function computeStandingsAndUpdateTeams(){
+  // reset stats
+  const teams = load(LS_TEAMS, []);
+  teams.forEach(t => t.stats = {played:0,wins:0,draws:0,losses:0,gf:0,ga:0,points:0});
+  const matches = load(LS_MATCHES, []);
+  matches.forEach(m=>{
+    if(m.homeGoals == null || m.awayGoals == null) return;
+    const ht = teams.find(t=>t.id === m.home);
+    const at = teams.find(t=>t.id === m.away);
+    if(!ht || !at) return;
+    ht.stats.played++; at.stats.played++;
+    ht.stats.gf += Number(m.homeGoals); ht.stats.ga += Number(m.awayGoals);
+    at.stats.gf += Number(m.awayGoals); at.stats.ga += Number(m.homeGoals);
+    if(m.homeGoals > m.awayGoals){ ht.stats.wins++; at.stats.losses++; ht.stats.points += 3; }
+    else if(m.homeGoals < m.awayGoals){ at.stats.wins++; ht.stats.losses++; at.stats.points += 3; }
+    else { ht.stats.draws++; at.stats.draws++; ht.stats.points += 1; at.stats.points += 1; }
+  });
+  save(LS_TEAMS, teams);
+  return teams;
+}
+
+function renderStandings(){
+  computeStandingsAndUpdateTeams();
+  const teams = load(LS_TEAMS, []);
+  const groups = load(LS_GROUPS, {});
+  let html = `<h2>Standings</h2><div class="muted">8 groups (A..H). Assign teams to groups via Admin.</div>`;
+  html += `<div class="groups-grid">`;
+  for(const g of GROUP_LETTERS){
+    const slotIds = groups[g] || [];
+    html += `<div class="group-card"><h4>Group ${g}</h4>`;
+    if(slotIds.length === 0) html += `<div class="muted">No teams assigned</div>`;
+    slotIds.forEach((id, idx)=>{
+      const team = teams.find(t=>t.id === id);
+      const s = team? team.stats : {played:0,wins:0,draws:0,losses:0,gf:0,ga:0,points:0};
+      html += `<div style="display:flex;justify-content:space-between;align-items:center;margin-top:6px">
+        <div style="display:flex;gap:8px;align-items:center"><div class="logo" style="width:36px;height:36px;background-image:url('${team?(team.iconUrl||placeholder(team.id)):placeholder(null)}');background-size:cover"></div><div>${team?team.name:'-'}</div></div>
+        <div style="min-width:160px;text-align:right">${s.played} | ${s.w}-${s.draws}-${s.losses} | ${s.gf}:${s.ga} | ${s.points} pts</div>
+      </div>`;
+    });
+    html += `</div>`;
+  }
+  html += `</div>`;
+  view.innerHTML = html;
+}
+
+/* ===========================
+  Knockout view (auto-construct R16 from top2 of each group)
+===========================*/
+function renderKnockout(){
+  computeStandingsAndUpdateTeams();
+  const teams = load(LS_TEAMS, []);
+  const groups = load(LS_GROUPS, {});
+  // compute advancing: top2 from each group
+  const adv = []; // array of {group, firstId, secondId}
+  for(const g of GROUP_LETTERS){
+    const ids = groups[g] || [];
+    const ranked = ids.map(id => teams.find(t=>t.id===id)).filter(Boolean).sort((a,b)=>{
+      if(b.stats.points !== a.stats.points) return b.stats.points - a.stats.points;
+      const gdA = a.stats.gf - a.stats.ga, gdB = b.stats.gf - b.stats.ga;
+      if(gdB !== gdA) return gdB - gdA;
+      return b.stats.gf - a.stats.gf;
+    });
+    if(ranked.length >= 2) adv.push({group:g, first:ranked[0], second:ranked[1]});
+    else if(ranked.length === 1) adv.push({group:g, first:ranked[0], second:null});
+    else adv.push({group:g, first:null, second:null});
+  }
+  // If we have top2 for all groups, build R16 pairing (standard: A1 vs B2, C1 vs D2, E1 vs F2, G1 vs H2, B1 vs A2, D1 vs C2, F1 vs E2, H1 vs G2)
+  const pairs = [];
+  if(adv.length === 8){
+    const map = {}; adv.forEach(a => map[a.group] = a);
+    const sequence = [
+      [ 'A','B' ], [ 'C','D' ], [ 'E','F' ], [ 'G','H' ],
+      [ 'B','A' ], [ 'D','C' ], [ 'F','E' ], [ 'H','G' ]
+    ];
+    sequence.forEach(pair => {
+      const g1 = map[pair[0]]; const g2 = map[pair[1]];
+      const t1 = g1 ? g1.first : null;
+      const t2 = g2 ? g2.second : null;
+      pairs.push({home: t1, away: t2});
+    });
+  }
+  // Render
+  let html = `<h2>Knockout (Round of 16)</h2><div class="muted">Top 2 from each group auto-qualify (if groups assigned and results present).</div>`;
+  if(pairs.length === 0) html += `<div class="muted" style="padding:12px">Round of 16 not ready — ensure groups have teams and results to rank top 2.</div>`;
+  else {
+    html += `<div style="display:flex;flex-direction:column;gap:8px;margin-top:12px">`;
+    pairs.forEach((p, i)=>{
+      html += `<div class="match-row">
+        <div class="team"><div class="logo" style="background-image:url('${p.home? (p.home.iconUrl || placeholder(p.home.id)) : placeholder(null)}');background-size:cover"></div><div>${p.home? p.home.name : 'TBD'}</div></div>
+        <div style="font-weight:700">vs</div>
+        <div class="team"><div>${p.away? p.away.name : 'TBD'}</div><div class="logo" style="background-image:url('${p.away? (p.away.iconUrl || placeholder(p.away.id)) : placeholder(null)}');background-size:cover"></div></div>
+      </div>`;
+    });
+    html += `</div>`;
+  }
+  view.innerHTML = html;
+}
+
+/* ===========================
+  Stats view (Top Attack / Defense)
+===========================*/
+function renderStats(){
+  computeStandingsAndUpdateTeams();
+  const teams = load(LS_TEAMS, []);
+  const byAttack = teams.slice().sort((a,b)=> b.stats.gf - a.stats.gf);
+  const byDefense = teams.slice().sort((a,b)=> a.stats.ga - b.stats.ga);
+  let html = `<h2>Top Attack / Defense</h2><div style="display:flex;gap:12px;flex-wrap:wrap">`;
+  html += `<div style="flex:1;min-width:300px" class="card"><h4>Top Attack</h4>`;
+  byAttack.slice(0,10).forEach(t=> html += `<div style="display:flex;justify-content:space-between;padding:6px">${t.name}<span>${t.stats.gf} GF</span></div>`);
+  html += `</div>`;
+  html += `<div style="flex:1;min-width:300px" class="card"><h4>Top Defense</h4>`;
+  byDefense.slice(0,10).forEach(t=> html += `<div style="display:flex;justify-content:space-between;padding:6px">${t.name}<span>${t.stats.ga} GA</span></div>`);
+  html += `</div></div>`;
+  view.innerHTML = html;
+}
+
+/* ===========================
+  Scorers view (participants list)
+===========================*/
+function renderScorers(){
+  const parts = load(LS_PARTS, []);
+  let sorted = parts.slice().sort((a,b)=>(b.goals||0) - (a.goals||0));
+  let html = `<h2>Top Scorers</h2><div class="muted">Manage participants and their goals in Admin.</div>`;
+  if(sorted.length === 0) html += `<div class="muted" style="padding:12px">No participants yet.</div>`;
+  else {
+    html += `<div style="margin-top:12px">`;
+    sorted.forEach(p => html += `<div style="display:flex;justify-content:space-between;padding:8px;border-radius:8px;background:rgba(255,255,255,0.01);margin-bottom:6px">${p.name} <span>${p.teamName||''}</span> <strong>${p.goals||0}</strong></div>`);
+    html += `</div>`;
+  }
+  view.innerHTML = html;
+}
+
+/* ===========================
+  Admin modal behaviour
+===========================*/
+const modalBg = $('modalBg');
+$('openAdmin').addEventListener('click', ()=> modalBg.style.display = 'flex');
+$('closeModal').addEventListener('click', ()=> { modalBg.style.display = 'none'; resetAuth();});
+function resetAuth(){ $('authArea').style.display=''; $('adminArea').style.display='none'; $('adminPass').value=''; $('livePreview').innerText='No changes yet'; }
+
+$('doLogin').addEventListener('click', ()=>{
+  const pass = $('adminPass').value;
+  const settings = load(LS_SETTINGS, {});
+  if(pass === settings.adminPass){ $('authArea').style.display='none'; $('adminArea').style.display='block'; showAdmin('teams'); updateLive('Logged in'); }
+  else alert('Wrong password');
 });
-sorted.forEach((t,i)=>{
-html += `<tr> <td>${i+1}</td> <td class="team">${t.name}</td> <td>${t.m}</td> <td>${t.w}</td> <td>${t.d}</td> <td>${t.l}</td> <td>${t.gf}:${t.ga}</td> <td>${calculatePoints(t)}</td> </tr>`;
-});
-html += `</table>`;
-container.innerHTML += html;
-}
+
+// admin tab buttons
+$('btnTeams').addEventListener('click', ()=> showAdmin('teams'));
+$('btnGroups').addEventListener('click', ()=> showAdmin('groups'));
+$('btnMatches').addEventListener('click', ()=> showAdmin('matches'));
+$('btnParticipants').addEventListener('click', ()=> showAdmin('parts'));
+$('btnSettings').addEventListener('click', ()=> showAdmin('settings'));
+
+function showAdmin(section){
+  // set active button style (simple)
+  ['btnTeams','btnGroups','btnMatches','btnParticipants','btnSettings'].forEach(id=> $(id).className = id==='btn'+section.charAt(0).toUpperCase()+section.slice(1) ? 'primary' : 'ghost');
+  renderAdminSection(section);
 }
 
-// Get advancing teams
-function getAdvancingTeams(){
-let advancing=[];
-for(let g in groups){
-let sorted = [...groups[g]].sort((a,b)=>{
-let ptsB = calculatePoints(b), ptsA = calculatePoints(a);
-if(ptsB!==ptsA) return ptsB-ptsA;
-let gdB = b.gf-b.ga, gdA = a.gf-a.ga;
-if(gdB!==gdA) return gdB-gdA;
-return b.gf - a.gf;
-});
-advancing.push({group:g, first:sorted[0].name, second:sorted[1].name});
-}
-return advancing;
+/* ===========================
+  Admin: Teams
+===========================*/
+function renderAdminSection(section){
+  const container = $('adminContent');
+  if(section === 'teams') {
+    const teams = load(LS_TEAMS, []);
+    let html = `<h4>Teams</h4><div class="small muted">Upload a logo to assign to a team (stored locally).</div>`;
+    html += `<div style="margin-top:8px" class="logo-grid">`;
+    teams.forEach(t => {
+      html += `<div class="logo-item" data-id="${t.id}">
+        <div class="logo-preview" style="background-image:url('${t.iconUrl || placeholder(t.id)}')"></div>
+        <div class="small">${t.name}</div>
+      </div>`;
+    });
+    html += `</div>`;
+    html += `<div style="margin-top:10px" class="field"><label>Upload logo</label><input id="uploadLogo" type="file" accept="image/*"/></div>`;
+    html += `<div style="display:flex;gap:8px;margin-top:8px"><input id="newTeamName" type="text" placeholder="New team name" style="flex:1"/><button id="addTeam" class="primary">Add Team</button></div>`;
+    container.innerHTML = html;
+
+    // attach events
+    container.querySelectorAll('.logo-item').forEach(el=>{
+      el.addEventListener('click', ()=>{
+        const id = el.dataset.id;
+        const newName = prompt('Edit team name:', load(LS_TEAMS, []).find(t=>t.id===id).name);
+        if(newName!=null && newName.trim()!==''){
+          const teams = load(LS_TEAMS, []);
+          const t = teams.find(x=>x.id===id); t.name = newName.trim();
+          save(LS_TEAMS, teams); renderAdminSection('teams'); updateLive('Team renamed');
+        }
+      });
+    });
+
+    $('uploadLogo').addEventListener('change', ev=>{
+      const f = ev.target.files[0]; if(!f) return;
+      const reader = new FileReader();
+      reader.onload = () => {
+        const id = prompt('Enter team id to attach this logo to (e.g. man_city):');
+        if(!id) { alert('No team id entered'); return; }
+        const teams = load(LS_TEAMS, []);
+        const t = teams.find(x=>x.id===id);
+        if(!t){ alert('Team id not found'); return; }
+        t.iconUrl = reader.result;
+        save(LS_TEAMS, teams); renderAdminSection('teams'); updateLive('Logo uploaded for '+t.name);
+      };
+      reader.readAsDataURL(f);
+      ev.target.value = '';
+    });
+
+    $('addTeam').addEventListener('click', ()=>{
+      const v = $('newTeamName').value.trim();
+      if(!v) return alert('Enter name');
+      const id = v.toLowerCase().replace(/\s+/g,'_').replace(/[^\w\-]/g,'');
+      const teams = load(LS_TEAMS, []);
+      if(teams.find(t=>t.id===id)) return alert('Team id exists');
+      teams.push({id,name:v,iconUrl:null,stats:{played:0,wins:0,draws:0,losses:0,gf:0,ga:0,points:0}});
+      save(LS_TEAMS, teams); renderAdminSection('teams'); $('newTeamName').value=''; updateLive('Team added '+v);
+    });
+  }
+  else if(section === 'groups'){
+    const groups = load(LS_GROUPS, {});
+    const teams = load(LS_TEAMS, []);
+    let html = `<h4>Groups</h4><div class="small muted">Drag assignment not implemented — choose from dropdown to assign teams to group slots. You (admin) will manually place teams into A..H.</div>`;
+    html += `<div class="field"><label>Pick group</label><select id="selectGroup">${GROUP_LETTERS.map(l=>`<option value="${l}">${l}</option>`).join('')}</select></div>`;
+    html += `<div class="field"><label>Pick team</label><select id="selectTeam"><option value="">-- choose team --</option>${teams.map(t=>`<option value="${t.id}">${t.name}</option>`).join('')}</select></div>`;
+    html += `<div style="display:flex;gap:8px"><button id="assignBtn" class="primary">Assign</button><button id="clearSlot" class="ghost">Clear group</button></div>`;
+    html += `<div style="margin-top:12px" class="groups-grid">`;
+    GROUP_LETTERS.forEach(l=>{
+      html += `<div class="group-card"><h4>Group ${l}</h4><div id="group_${l}">`;
+      (groups[l] || []).forEach(id => {
+        const team = teams.find(t=>t.id===id);
+        html += `<div class="slot"><div style="display:flex;align-items:center;gap:8px"><div class="logo" style="width:36px;height:36px;background-image:url('${team? (team.iconUrl||placeholder(team.id)) : placeholder(null)}');background-size:cover"></div>${team?team.name:'-'}</div><button data-group="${l}" data-id="${id}" class="ghost">Remove</button></div>`;
+      });
+      html += `</div></div>`;
+    });
+    html += `</div>`;
+    container.innerHTML = html;
+
+    $('assignBtn').addEventListener('click', ()=>{
+      const group = $('selectGroup').value;
+      const teamId = $('selectTeam').value;
+      if(!teamId) return alert('Choose team');
+      const groups = load(LS_GROUPS, {});
+      groups[group] = groups[group] || [];
+      if(groups[group].includes(teamId)) return alert('Team already in this group');
+      // ensure team not in another group
+      for(const g of GROUP_LETTERS) groups[g] = (groups[g] || []).filter(x=> x !== teamId);
+      groups[group].push(teamId);
+      save(LS_GROUPS, groups); renderAdminSection('groups'); updateLive('Assigned team to group '+group);
+    });
+
+    $('clearSlot').addEventListener('click', ()=>{
+      const g = $('selectGroup').value;
+      if(!confirm('Clear all teams from group '+g+'?')) return;
+      const groups = load(LS_GROUPS, {}); groups[g] = []; save(LS_GROUPS, groups); renderAdminSection('groups'); updateLive('Cleared group '+g);
+    });
+
+    // remove handlers (delegated) re-render
+    setTimeout(()=> {
+      document.querySelectorAll('[data-group][data-id]').forEach(btn=> btn.addEventListener('click', ()=>{
+        const g = btn.dataset.group, id = btn.dataset.id;
+        const groups = load(LS_GROUPS, {}); groups[g] = (groups[g] || []).filter(x=> x !== id); save(LS_GROUPS, groups); renderAdminSection('groups'); updateLive('Removed team from group '+g);
+      }));
+    }, 80);
+  }
+  else if(section === 'matches'){
+    const matches = load(LS_MATCHES, []);
+    const teams = load(LS_TEAMS, []);
+    let html = `<h4>Matches</h4>`;
+    html += `<div class="field"><label>Stage</label><select id="mStage"><option value="Group">Group</option><option value="Round of 16">Round of 16</option><option value="Quarter Final">Quarter Final</option><option value="Semi Final">Semi Final</option><option value="Final">Final</option></select></div>`;
+    html += `<div class="field"><label>Date</label><input id="mDate" type="date"></div>`;
+    html += `<div class="field"><label>Home Team</label><select id="mHome"><option value="">--</option>${teams.map(t=>`<option value="${t.id}">${t.name}</option>`)}</select></div>`;
+    html += `<div class="field"><label>Away Team</label><select id="mAway"><option value="">--</option>${teams.map(t=>`<option value="${t.id}">${t.name}</option>`)}</select></div>`;
+    html += `<div class="field"><label>Home Goals</label><input id="mHomeGoals" type="number" min="0"></div>`;
+    html += `<div class="field"><label>Away Goals</label><input id="mAwayGoals" type="number" min="0"></div>`;
+    html += `<div style="display:flex;gap:8px"><button id="addMatch" class="primary">Add Match</button><button id="recalc" class="ghost">Recalculate Standings</button></div>`;
+    html += `<h4 style="margin-top:12px">Existing Matches</h4>`;
+    html += `<div id="matchesList" class="small"></div>`;
+    container.innerHTML = html;
+
+    function refreshList(){
+      const ms = load(LS_MATCHES, []); const el = $('matchesList');
+      if(ms.length === 0) el.innerHTML = `<div class="muted">No matches</div>`;
+      else {
+        el.innerHTML = '';
+        ms.forEach((m, idx)=>{
+          const home = (load(LS_TEAMS, []).find(t=>t.id===m.home) || {}).name || '-';
+          const away = (load(LS_TEAMS, []).find(t=>t.id===m.away) || {}).name || '-';
+          const row = document.createElement('div'); row.style.display='flex'; row.style.justifyContent='space-between'; row.style.marginBottom='6px';
+          row.innerHTML = `<div>${m.stage} | ${m.date || '-'} — ${home} vs ${away}</div><div><button data-edit="${idx}" class="ghost">Edit</button> <button data-del="${idx}" class="ghost">Delete</button></div>`;
+          el.appendChild(row);
+        });
+        // attach handlers
+        el.querySelectorAll('[data-del]').forEach(b=> b.addEventListener('click', ()=> {
+          const idx = Number(b.dataset.del); if(!confirm('Delete match?')) return;
+          const ms = load(LS_MATCHES, []); ms.splice(idx,1); save(LS_MATCHES, ms); refreshList(); updateLive('Match deleted'); renderView('matches');
+        }));
+        el.querySelectorAll('[data-edit]').forEach(b=> b.addEventListener('click', ()=>{
+          const idx = Number(b.dataset.edit); const ms = load(LS_MATCHES, []); const m = ms[idx];
+          $('mStage').value = m.stage || 'Group'; $('mDate').value = m.date || ''; $('mHome').value = m.home || ''; $('mAway').value = m.away || ''; $('mHomeGoals').value = m.homeGoals==null? '' : m.homeGoals; $('mAwayGoals').value = m.awayGoals==null? '' : m.awayGoals;
+          // remove the old so adding will replace
+          ms.splice(idx,1); save(LS_MATCHES, ms); refreshList();
+        }));
+      }
+    }
+    refreshList();
+
+    $('addMatch').addEventListener('click', ()=>{
+      const stage = $('mStage').value;
+      const date = $('mDate').value;
+      const home = $('mHome').value || null; const away = $('mAway').value || null;
+      const hg = $('mHomeGoals').value; const ag = $('mAwayGoals').value;
+      const homeGoals = hg === '' ? null : Number(hg);
+      const awayGoals = ag === '' ? null : Number(ag);
+      if(!home || !away) return alert('Select both teams');
+      const ms = load(LS_MATCHES, []); ms.push({id:'m_'+Date.now(), stage, date, home, away, homeGoals, awayGoals}); save(LS_MATCHES, ms);
+      refreshList(); updateLive('Match added'); renderView('matches'); renderView('standings'); renderView('knockout');
+      $('mDate').value=''; $('mHomeGoals').value=''; $('mAwayGoals').value='';
+    });
+
+    $('recalc').addEventListener('click', ()=> { computeStandingsAndUpdateTeams(); renderView('standings'); updateLive('Standings recalculated');});
+  }
+  else if(section === 'parts'){
+    const parts = load(LS_PARTS, []); const teams = load(LS_TEAMS, []);
+    let html = `<h4>Participants</h4>`;
+    html += `<div class="field"><label>Name</label><input id="pName" type="text"/></div>`;
+    html += `<div class="field"><label>Team</label><select id="pTeam"><option value="">-- none --</option>${teams.map(t=>`<option value="${t.id}">${t.name}</option>`)}</select></div>`;
+    html += `<div class="field"><label>Goals</label><input id="pGoals" type="number" min="0" value="0"/></div>`;
+    html += `<div style="display:flex;gap:8px"><button id="addPart" class="primary">Add Participant</button><button id="clearParts" class="ghost">Clear all</button></div>`;
+    html += `<div style="margin-top:12px"><h4>List</h4><div id="partsList" class="small"></div></div>`;
+    container.innerHTML = html;
+
+    function refreshParts(){
+      const list = load(LS_PARTS, []); const el = $('partsList');
+      if(list.length === 0) el.innerHTML = `<div class="muted">No participants</div>`;
+      else {
+        el.innerHTML = '';
+        list.forEach((p,idx)=> {
+          const r = document.createElement('div'); r.style.display='flex'; r.style.justifyContent='space-between'; r.style.marginBottom='6px';
+          r.innerHTML = `<div>${p.name} <span class="small muted">${p.teamName||''}</span></div><div><button data-del="${idx}" class="ghost">Delete</button></div>`;
+          el.appendChild(r);
+        });
+        el.querySelectorAll('[data-del]').forEach(b=> b.addEventListener('click', ()=> {
+          const idx = Number(b.dataset.del); const arr = load(LS_PARTS, []); arr.splice(idx,1); save(LS_PARTS, arr); refreshParts(); updateLive('Participant removed');
+        }));
+      }
+    }
+    refreshParts();
+    $('addPart').addEventListener('click', ()=> {
+      const name = $('pName').value.trim(); const teamId = $('pTeam').value || null; const goals = Number($('pGoals').value) || 0;
+      if(!name) return alert('Enter name');
+      const teams = load(LS_TEAMS, []); const tn = teamId ? (teams.find(t=>t.id===teamId)||{}).name : null;
+      const parts = load(LS_PARTS, []); parts.push({id:'p_'+Date.now(), name, teamId, teamName: tn, goals}); save(LS_PARTS, parts); $('pName').value=''; $('pGoals').value=0; refreshParts(); updateLive('Participant added');
+    });
+    $('clearParts').addEventListener('click', ()=> { if(confirm('Delete all participants?')){ save(LS_PARTS, []); refreshParts(); updateLive('All participants cleared'); }});
+  }
+  else if(section === 'settings'){
+    const s = load(LS_SETTINGS, {});
+    let html = `<h4>Settings</h4><div class="field"><label>Admin Password</label><input id="setPass" type="text" value="${s.adminPass||'admin123'}"/></div>`;
+    html += `<div style="display:flex;gap:8px"><button id="saveSettings" class="primary">Save</button><button id="resetAll" class="ghost">Reset All Data</button></div>`;
+    container.innerHTML = html;
+    $('saveSettings').addEventListener('click', ()=> { const newp = $('setPass').value || 'admin123'; save(LS_SETTINGS, {adminPass:newp}); alert('Saved'); updateLive('Settings saved'); });
+    $('resetAll').addEventListener('click', ()=> { if(!confirm('Reset everything? This clears localStorage for this app.')) return; localStorage.removeItem(LS_TEAMS); localStorage.removeItem(LS_GROUPS); localStorage.removeItem(LS_MATCHES); localStorage.removeItem(LS_PARTS); localStorage.removeItem(LS_SETTINGS); location.reload(); });
+  }
 }
 
-// Update advancing table dynamically
-function updateAdvancingTable(){
-const advTable = document.getElementById('advancing-table');
-const advTeams = getAdvancingTeams();
-for(let i=0;i<advTeams.length;i++){
-const row = advTable.rows[i+1];
-const allMatchesPlayed = groups[advTeams[i].group].every(t=>t.m >= 4);
-if(allMatchesPlayed){
-row.cells[1].innerText = advTeams[i].first;
-row.cells[2].innerText = advTeams[i].second;
+/* ===========================
+  Utilities
+===========================*/
+function placeholder(id){
+  const label = id ? id.split('_').map(s=>s[0].toUpperCase()).slice(0,2).join('') : '?';
+  const hue = Math.abs(hash(id||'x'))%360;
+  const bg = `hsl(${hue} 70% 45%)`;
+  const svg = `<svg xmlns='http://www.w3.org/2000/svg' width='220' height='220'><rect rx='14' width='100%' height='100%' fill='${bg}'/><text x='50%' y='54%' font-family='Arial' font-size='64' fill='#fff' text-anchor='middle' dominant-baseline='middle' font-weight='700'>${label}</text></svg>`;
+  return `data:image/svg+xml;base64,${btoa(svg)}`;
 }
-}
-}
+function hash(s){ let h=0; for(let i=0;i<s.length;i++){h=(h<<5)-h+s.charCodeAt(i); h=h&h;} return h; }
+function updateLive(msg){ $('livePreview').innerText = msg; setTimeout(()=>{ renderView(document.querySelector('.tab.active').dataset.view); },150); }
 
-// ----------------- INIT -----------------
-displayGroups();
-updateAdvancingTable();
+/* expose for console debugging */
+window.debugEFC = { load, save, updateLive };
+
+/* initial admin content default */
+renderAdminSection('teams');
 </script>
 </body>
 </html>
